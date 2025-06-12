@@ -43,8 +43,8 @@ public class JuegoController {
 
     @GetMapping("/pregunta")
     public String mostrarPregunta(@RequestParam Long juegoId,
-                                  @RequestParam Long categoriaId,
-                                  Model model) {
+                                @RequestParam Long categoriaId,
+                                Model model) {
         Juego juego = juegoService.obtenerPorId(juegoId);
 
         // Obtener preguntas ya respondidas
@@ -58,9 +58,15 @@ public class JuegoController {
             return "redirect:/jugar/finalizar/" + juegoId;
         }
 
+        // Calcular el número de la pregunta actual y el total de preguntas
+        int preguntaActual = preguntasRespondidas.size() + 1;
+        int totalPreguntas = preguntaService.contarPreguntasPorCategoria(categoriaId);
+
         model.addAttribute("juego", juego);
         model.addAttribute("pregunta", pregunta);
         model.addAttribute("juegoId", juegoId);
+        model.addAttribute("preguntaActual", preguntaActual);
+        model.addAttribute("totalPreguntas", totalPreguntas);
 
         return "pregunta";
     }

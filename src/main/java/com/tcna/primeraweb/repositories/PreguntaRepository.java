@@ -17,4 +17,7 @@ public interface PreguntaRepository extends JpaRepository<Pregunta, Long> {
 
     @Query(value = "SELECT p FROM Pregunta p WHERE p.categoria.id = :categoriaId AND p.id NOT IN :preguntasRespondidas ORDER BY RAND()")
     List<Pregunta> findPreguntaAleatoriaPorCategoriaExcluyendo(@Param("categoriaId") Long categoriaId, @Param("preguntasRespondidas") List<Long> preguntasRespondidas);
+
+    int countByCategoriaId(Long categoriaId);    
+    
 }

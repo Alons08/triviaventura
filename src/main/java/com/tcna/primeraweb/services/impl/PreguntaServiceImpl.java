@@ -65,4 +65,9 @@ public class PreguntaServiceImpl implements PreguntaService {
         return preguntas.get(0); // Devuelve la primera pregunta aleatoria
     }
 
+    @Override
+    public int contarPreguntasPorCategoria(Long categoriaId) {
+        return preguntaRepository.countByCategoriaId(categoriaId);
+    }
+
 }

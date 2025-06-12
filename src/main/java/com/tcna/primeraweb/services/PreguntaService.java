@@ -10,5 +10,7 @@ public interface PreguntaService extends ICRUD<Pregunta, Long>{
     Pregunta obtenerPreguntaAleatoriaPorCategoria(Long categoriaId);
 
     Pregunta obtenerPreguntaAleatoriaPorCategoriaExcluyendo(Long categoriaId, List<Long> preguntasRespondidas); // Nuevo método
-
+    
+    int contarPreguntasPorCategoria(Long categoriaId);
+    
 }
