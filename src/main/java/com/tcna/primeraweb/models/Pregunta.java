@@ -34,7 +34,7 @@ public class Pregunta {
     private String textoPregunta;
 
     @NotBlank
-    @Size(min = 1, max= 30)
+    @Size(min = 1, max= 30) //poner mas numero aqui mas adelante
     private String opcionA;
 
     @NotBlank

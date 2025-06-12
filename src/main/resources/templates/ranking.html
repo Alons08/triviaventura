@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ranking | Triviaventura</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -29,7 +29,7 @@
 
         .content-wrapper {
             flex: 1;
-            padding-bottom: 20px; /* Espacio antes del footer */
+            padding-bottom: 20px;
         }
 
         .ranking-header {
@@ -111,84 +111,140 @@
             border-radius: 0;
         }
 
+        /* Estilos para móviles */
         @media (max-width: 768px) {
-            .table-responsive {
-                padding: 0;
+            .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
             }
 
             .ranking-card {
-                border-radius: 0;
-            }
-
-            .container {
-                padding-left: 0;
-                padding-right: 0;
+                border-radius: 8px;
+                margin-bottom: 1rem;
             }
 
             .card-header h3 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            .badge-position {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+
+            .player-name {
+                font-size: 0.9rem;
+            }
+
+            .btn-play {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                width: 100%;
+            }
+
+            .player-info-alert {
+                font-size: 0.9rem;
+                padding: 0.75rem;
+            }
+        }
+
+        /* Estilos para pantallas muy pequeñas */
+        @media (max-width: 576px) {
+            .card-header h3 {
+                font-size: 1.2rem;
+            }
+
+            .card-header {
+                padding: 1rem;
+            }
+
+            .card-body {
+                padding: 0.5rem !important;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.5rem !important;
+            }
+
+            .badge-position {
+                width: 26px;
+                height: 26px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="content-wrapper">
-        <div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="content-wrapper">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-        <div class="container py-4 py-lg-5">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-10 col-xl-8">
-                    <div class="card ranking-card mb-4">
-                        <div class="card-header text-center">
-                            <h3 class="mb-0"><i class="bi bi-trophy-fill me-2"></i>Ranking de Jugadores</h3>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-hover align-middle mb-0">
-                                    <thead class="table-light">
-                                    <tr>
-                                        <th scope="col" class="ps-4">Posición</th>
-                                        <th scope="col">Jugador</th>
-                                        <th scope="col" class="text-end pe-4">Puntaje</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="usuario, iter : ${ranking}">
-                                        <td class="ps-4">
+    <div class="container py-3 py-lg-5">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card ranking-card mb-3">
+                    <div class="card-header text-center">
+                        <h3 class="mb-0"><i class="bi bi-trophy-fill me-2"></i>Ranking de Jugadores</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class="ps-3 ps-sm-4">Posición</th>
+                                    <th scope="col">Jugador</th>
+                                    <th scope="col" class="text-end pe-3 pe-sm-4">Puntaje</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="usuario, iter : ${ranking}">
+                                    <td class="ps-3 ps-sm-4">
                                             <span th:class="${iter.index == 0} ? 'badge-position gold' :
                                                   (${iter.index == 1} ? 'badge-position silver' :
                                                   (${iter.index == 2} ? 'badge-position bronze' : 'badge-position bg-light text-dark'))"
                                                   th:text="${iter.index + 1}"></span>
-                                        </td>
-                                        <td>
-                                            <span class="player-name" th:text="${usuario[0]}"></span>
-                                        </td>
-                                        <td class="text-end pe-4 fw-bold" th:text="${usuario[1]}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                    </td>
+                                    <td>
+                                        <span class="player-name" th:text="${usuario[0]}"></span>
+                                    </td>
+                                    <td class="text-end pe-3 pe-sm-4 fw-bold" th:text="${usuario[1]}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="card-footer bg-white text-center py-3">
-                            <a th:href="@{/jugar}" class="btn btn-play btn-lg">
-                                <i class="bi bi-joystick me-2"></i>Jugar Ahora
-                            </a>
-                        </div>
+                    </div>
+                    <div class="card-footer bg-white text-center py-3">
+                        <a th:href="@{/jugar}" class="btn btn-play btn-lg">
+                            <i class="bi bi-joystick me-2"></i>Jugar Ahora
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="alert alert-info text-center player-info-alert">
-            <strong>Jugador:</strong> <span th:text="${#authentication.name}"></span><br>
-            <strong>Tu puntaje actual:</strong> <span th:text="${puntajeActual}"></span>
-        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="alert alert-info text-center player-info-alert">
+        <strong>Jugador:</strong> <span th:text="${#authentication.name}"></span><br>
+        <strong>Tu puntaje actual:</strong> <span th:text="${puntajeActual}"></span>
+    </div>
+</div>
 
-    <!-- Incluir el footer -->
-    <div th:insert="fragments/footer :: footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Incluir el footer -->
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>
