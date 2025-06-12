@@ -6,20 +6,45 @@
     <title>Resultado | Triviaventura</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding-bottom: 20px;
+        }
+
+        .footer-wrapper {
+            margin-top: auto;
+        }
+
         .result-card {
             border-radius: 15px;
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
             border: none;
         }
+
         .score-display {
             font-size: 5rem;
             font-weight: bold;
             color: #667eea;
         }
+
         .celebrate {
             font-size: 4rem;
             animation: bounce 2s infinite;
         }
+
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -90,19 +115,21 @@
         }
     </style>
 </head>
-<body class="bg-light">
-<div class="container py-3 py-md-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-10 col-lg-6">
-            <div class="card result-card text-center p-4 p-md-5">
-                <div class="celebrate mb-3">🎉</div>
-                <h2 class="mb-3 mb-md-4">¡Juego Terminado!</h2>
-                <p class="lead mb-3 mb-md-4">Tu puntuación final es:</p>
-                <div class="score-display mb-3 mb-md-4" th:text="${puntaje}"></div>
+<body>
+<div class="content-wrapper">
+    <div class="container py-3 py-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-6">
+                <div class="card result-card text-center p-4 p-md-5">
+                    <div class="celebrate mb-3">🎉</div>
+                    <h2 class="mb-3 mb-md-4">¡Juego Terminado!</h2>
+                    <p class="lead mb-3 mb-md-4">Tu puntuación final es:</p>
+                    <div class="score-display mb-3 mb-md-4" th:text="${puntaje}"></div>
 
-                <div class="d-grid gap-2 gap-md-3">
-                    <a th:href="@{/jugar}" class="btn btn-primary btn-lg">Jugar de nuevo</a>
-                    <a th:href="@{/ranking}" class="btn btn-outline-secondary btn-lg">Ver ranking</a>
+                    <div class="d-grid gap-2 gap-md-3">
+                        <a th:href="@{/jugar}" class="btn btn-primary btn-lg">Jugar de nuevo</a>
+                        <a th:href="@{/ranking}" class="btn btn-outline-secondary btn-lg">Ver ranking</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,7 +139,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Incluir el footer -->
-<div th:insert="fragments/footer :: footer"></div>
+<div class="footer-wrapper" th:insert="fragments/footer :: footer"></div>
 
 </body>
 </html>
