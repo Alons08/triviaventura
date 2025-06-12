@@ -26,6 +26,11 @@
             <!-- Barra de progreso -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="timer" id="timer">⏱️ 30s</div>
+                <div class="fw-bold">
+                    Pregunta:
+                    <span th:text="${#lists.size(juego.detalles) + 1}"></span> /
+                    <span th:text="${pregunta.categoria.preguntas.size()}"></span>
+                </div>
                 <div class="fw-bold">Puntos: <span th:text="${juego.puntaje}">0</span></div>
             </div>
 
