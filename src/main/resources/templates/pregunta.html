@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pregunta | Triviaventura</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .option-btn.selected-correct {
+            background-color: #28a745 !important;
+            color: white !important;
+        }
+        .option-btn.selected-incorrect {
+            background-color: #dc3545 !important;
+            color: white !important;
+        }
+        .option-btn.correct-answer {
+            background-color: #28a745 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Barra de progreso -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="timer" id="timer">⏱️ 30s</div>
+                <div class="fw-bold">Puntos: <span th:text="${juego.puntaje}">0</span></div>
+            </div>
+
+            <!-- Tarjeta de pregunta -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0" th:text="${pregunta.categoria.nombre}"></h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title mb-4" th:text="${pregunta.textoPregunta}"></h4>
+
+                    <form id="respuestaForm" th:action="@{/jugar/responder}" method="post">
+                        <input type="hidden" name="juegoId" th:value="${juegoId}">
+                        <input type="hidden" name="preguntaId" th:value="${pregunta.id}">
+                        <input type="hidden" id="respuestaHidden" name="respuestaUsuario" value="">
+
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-outline-primary option-btn" data-respuesta="A">
+                                <strong>A)</strong> <span th:text="${pregunta.opcionA}"></span>
+                            </button>
+                            <button type="button" class="btn btn-outline-primary option-btn" data-respuesta="B">
+                                <strong>B)</strong> <span th:text="${pregunta.opcionB}"></span>
+                            </button>
+                            <button type="button" class="btn btn-outline-primary option-btn" data-respuesta="C">
+                                <strong>C)</strong> <span th:text="${pregunta.opcionC}"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        const respuestaCorrecta = [[${pregunta.respuestaCorrecta}]];
+        const form = document.getElementById('respuestaForm');
+        const hiddenInput = document.getElementById('respuestaHidden');
+        const optionButtons = document.querySelectorAll('.option-btn');
+        let respuestaEnviada = false;
+
+        // Temporizador
+        let timeLeft = 30;
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        function updateTimer() {
+            timeLeft--;
+            timerElement.textContent = `⏱️ ${timeLeft}s`;
+
+            if(timeLeft <= 0 && !respuestaEnviada) {
+                clearInterval(timerInterval);
+                enviarRespuesta('');
+            }
+        }
+
+        // Manejar clic en opciones
+        optionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                if(respuestaEnviada) return;
+
+                const respuestaSeleccionada = this.getAttribute('data-respuesta');
+                mostrarFeedback(respuestaSeleccionada);
+                enviarRespuesta(respuestaSeleccionada);
+            });
+        });
+
+        function mostrarFeedback(respuesta) {
+            optionButtons.forEach(button => {
+                button.disabled = true;
+                const opcion = button.getAttribute('data-respuesta');
+
+                if(opcion === respuesta) {
+                    button.classList.add(opcion === respuestaCorrecta ?
+                        'selected-correct' : 'selected-incorrect');
+                }
+
+                if(opcion === respuestaCorrecta && respuesta !== respuestaCorrecta) {
+                    button.classList.add('correct-answer');
+                }
+            });
+        }
+
+        function enviarRespuesta(respuesta) {
+            if(respuestaEnviada) return;
+            respuestaEnviada = true;
+            clearInterval(timerInterval);
+
+            hiddenInput.value = respuesta;
+
+            // Ajusta el retraso aquí (en milisegundos)
+            setTimeout(() => {
+                form.submit(); // Envío del formulario después del retraso
+            }, 400); // 1000 milisengundos es 1 segundo e
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

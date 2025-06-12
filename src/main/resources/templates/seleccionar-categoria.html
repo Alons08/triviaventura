@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Seleccionar Categoría | Triviaventura</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --hover-color: #5a67d8;
+            --dark-color: #2d3748;
+            --light-color: #f8f9fa;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .category-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            height: 100%; /* Aseguramos que ocupe todo el alto disponible */
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        .category-card .card-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Aseguramos que el cuerpo ocupe todo el alto */
+        }
+
+        .category-card h3 {
+            color: var(--dark-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            min-height: 3rem; /* Altura fija para el título */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-card p {
+            color: #6c757d;
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limita a 3 líneas máximo */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 4.5rem; /* Altura mínima para 3 líneas */
+        }
+
+        .category-action {
+            margin-top: auto; /* Empuja el botón hacia abajo */
+        }
+
+        .page-header {
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .category-grid {
+            padding-bottom: 3rem;
+        }
+
+        .category-emoji {
+            font-size: 2rem;
+        }
+
+        /* Asegurar que todas las tarjetas tengan la misma altura */
+        .category-col {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .category-card {
+                margin-bottom: 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .category-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .category-card p {
+                min-height: auto;
+                -webkit-line-clamp: 2;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container py-4 py-lg-5">
+    <div class="page-header text-center">
+        <h1><i class="bi bi-bookmark-star"></i> Elige una categoría</h1>
+        <p>Selecciona el tema sobre el que quieres demostrar tus conocimientos y comienza el desafío.</p>
+    </div>
+
+    <div class="row g-4 category-grid">
+        <div th:each="categoria, iter : ${categorias}" class="col-md-6 col-lg-4 category-col">
+            <form th:action="@{/jugar/iniciar}" method="post" class="w-100">
+                <input type="hidden" name="categoriaId" th:value="${categoria.id}">
+                <button type="submit" class="btn btn-link p-0 w-100 h-100 text-decoration-none">
+                    <div class="card category-card w-100">
+                        <div class="card-body text-center">
+                            <div class="category-icon">
+                                <span th:switch="${iter.index % 6}">
+                                    <i th:case="0" class="bi bi-globe2 category-emoji"></i>
+                                    <i th:case="1" class="bi bi-calculator category-emoji"></i>
+                                    <i th:case="2" class="bi bi-book category-emoji"></i>
+                                    <i th:case="3" class="bi bi-film category-emoji"></i>
+                                    <i th:case="4" class="bi bi-music-note-beamed category-emoji"></i>
+                                    <i th:case="5" class="bi bi-controller category-emoji"></i>
+                                </span>
+                            </div>
+                            <h3 th:text="${categoria.nombre}"></h3>
+                            <p class="mb-3" th:text="${categoria.descripcion} ?: 'Demuestra lo que sabes sobre este tema'"></p>
+                            <div class="category-action">
+                                <span class="btn btn-sm btn-outline-primary">Jugar ahora <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
