@@ -32,12 +32,12 @@
         }
 
         .category-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
         .category-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             -webkit-background-clip: text;
             background-clip: text;
@@ -47,13 +47,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
+            margin: 0 auto 0.75rem;
             border-radius: 50%;
             background-color: rgba(102, 126, 234, 0.1);
         }
 
         .category-card .card-body {
-            padding: 1.5rem;
+            padding: 1.25rem;
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -62,65 +62,86 @@
         .category-card h3 {
             color: var(--dark-color);
             font-weight: 600;
-            margin-bottom: 0.75rem;
-            min-height: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin-bottom: 0.5rem;
             font-size: 1.1rem;
+            line-height: 1.3;
         }
 
         .category-card p {
             color: #6c757d;
             flex-grow: 1;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Mostrar máximo 3 líneas */
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
-            min-height: 4.5rem; /* Altura suficiente para 3 líneas */
             font-size: 0.9rem;
-            line-height: 1.4; /* Mejor espaciado entre líneas */
+            line-height: 1.4;
+            min-height: 3.8rem;
         }
 
         .category-action {
-            margin-top: auto;
+            margin-top: 0.5rem;
         }
 
         .category-action .btn {
             font-size: 0.85rem;
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            font-weight: 500;
         }
 
         .page-header {
             color: white;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .page-header h1 {
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .page-header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
         }
 
         .category-grid {
-            padding-bottom: 3rem;
+            padding-bottom: 2rem;
         }
 
         .category-emoji {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
 
         .category-col {
             display: flex;
+        }
+
+        /* Estilos para laptop/desktop */
+        @media (min-width: 992px) {
+            .category-card .card-body {
+                padding: 1.5rem;
+            }
+
+            .category-card h3 {
+                font-size: 1.2rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .category-card p {
+                font-size: 0.95rem;
+                min-height: 4rem;
+            }
+
+            .category-action .btn {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
         }
 
         /* Estilos para móviles */
@@ -134,12 +155,12 @@
             }
 
             .page-header h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
 
             .page-header p {
-                font-size: 1rem;
-                padding: 0 1rem;
+                font-size: 0.95rem;
+                padding: 0 0.5rem;
             }
 
             .category-card {
@@ -147,60 +168,58 @@
             }
 
             .category-card .card-body {
-                padding: 1.25rem;
+                padding: 1rem;
             }
 
             .category-icon {
                 width: 50px;
                 height: 50px;
-                font-size: 1.5rem;
-                margin-bottom: 0.75rem;
+                font-size: 1.4rem;
+                margin-bottom: 0.5rem;
             }
 
             .category-card h3 {
                 font-size: 1rem;
-                min-height: 2rem;
             }
 
             .category-card p {
                 font-size: 0.85rem;
-                min-height: 3.8rem; /* Ajuste para móviles */
-                -webkit-line-clamp: 3; /* Mantener 3 líneas en móviles */
-                margin-bottom: 0.75rem;
+                min-height: 3.6rem;
+                margin-bottom: 0.5rem;
             }
 
             .category-action .btn {
                 font-size: 0.8rem;
+                padding: 0.35rem 0.8rem;
             }
         }
 
         /* Estilos para pantallas muy pequeñas */
         @media (max-width: 576px) {
             .page-header h1 {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
 
             .page-header p {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
 
             .category-card .card-body {
-                padding: 1rem;
+                padding: 0.9rem;
             }
 
             .category-icon {
                 width: 45px;
                 height: 45px;
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
 
             .category-card p {
-                min-height: 3.5rem;
-                -webkit-line-clamp: 3; /* Mantener 3 líneas */
+                min-height: 3.4rem;
             }
 
             .category-grid {
-                padding-bottom: 1.5rem;
+                padding-bottom: 1rem;
             }
         }
     </style>
@@ -209,7 +228,7 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container py-3 py-lg-5">
+<div class="container py-3 py-lg-4">
     <div class="page-header text-center">
         <h1><i class="bi bi-bookmark-star"></i> Elige una categoría</h1>
         <p>Selecciona el tema sobre el que quieres demostrar tus conocimientos y comienza el desafío.</p>
@@ -232,7 +251,7 @@
                                 </span>
                             </div>
                             <h3 th:text="${categoria.nombre}"></h3>
-                            <p class="mb-3" th:text="${categoria.descripcion} ?: 'Demuestra lo que sabes sobre este tema'"></p>
+                            <p class="mb-2" th:text="${categoria.descripcion} ?: 'Demuestra lo que sabes sobre este tema'"></p>
                             <div class="category-action">
                                 <span class="btn btn-sm btn-outline-primary">Jugar ahora <i class="bi bi-arrow-right"></i></span>
                             </div>
