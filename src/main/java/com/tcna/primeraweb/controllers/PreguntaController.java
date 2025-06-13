@@ -3,9 +3,11 @@ package com.tcna.primeraweb.controllers;
 import com.tcna.primeraweb.models.Pregunta;
 import com.tcna.primeraweb.services.CategoriaService;
 import com.tcna.primeraweb.services.PreguntaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -30,9 +32,15 @@ public class PreguntaController {
     }
 
     @PostMapping("/guardar")
-    public String guardarPregunta(@ModelAttribute Pregunta pregunta) {
+    public String guardarPregunta(@Valid @ModelAttribute Pregunta pregunta,
+                                BindingResult bindingResult,
+                                Model model) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("categorias", categoriaService.listarTodos()); // ← Esto es importante
+            return "pregunta/formulario";
+        }
         preguntaService.crear(pregunta);
-        return "redirect:/preguntas"; //endpoint
+        return "redirect:/preguntas";
     }
 
     @GetMapping("/editar/{id}")

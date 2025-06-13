@@ -35,19 +35,19 @@
         }
 
         .score-display {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: bold;
             color: #667eea;
         }
 
         .celebrate {
-            font-size: 4rem;
+            font-size: 3rem;
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
 
         /* Estilos para móviles */
@@ -57,78 +57,79 @@
             }
 
             .result-card {
-                padding: 2rem !important;
+                padding: 1.5rem !important;
             }
 
             .score-display {
-                font-size: 3.5rem;
-            }
-
-            .celebrate {
                 font-size: 3rem;
             }
 
+            .celebrate {
+                font-size: 2.5rem;
+            }
+
             h2 {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
 
             .lead {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             .btn-lg {
-                padding: 0.75rem;
-                font-size: 1rem;
+                padding: 0.5rem;
+                font-size: 0.9rem;
             }
         }
 
         /* Estilos para pantallas muy pequeñas */
         @media (max-width: 576px) {
             .result-card {
-                padding: 1.5rem !important;
+                padding: 1.25rem !important;
                 margin: 0.5rem;
             }
 
             .score-display {
-                font-size: 3rem;
-                margin-bottom: 1.5rem !important;
-            }
-
-            .celebrate {
                 font-size: 2.5rem;
                 margin-bottom: 1rem !important;
             }
 
+            .celebrate {
+                font-size: 2rem;
+                margin-bottom: 0.5rem !important;
+            }
+
             h2 {
-                font-size: 1.3rem;
-                margin-bottom: 1rem !important;
+                font-size: 1.2rem;
+                margin-bottom: 0.75rem !important;
             }
 
             .lead {
-                font-size: 1rem;
-                margin-bottom: 1.5rem !important;
+                font-size: 0.9rem;
+                margin-bottom: 1rem !important;
             }
 
             .d-grid {
-                gap: 1rem !important;
+                gap: 0.75rem !important;
             }
         }
     </style>
 </head>
 <body>
 <div class="content-wrapper">
-    <div class="container py-3 py-md-5">
+    <div class="container py-3">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-6">
-                <div class="card result-card text-center p-4 p-md-5">
-                    <div class="celebrate mb-3">🎉</div>
-                    <h2 class="mb-3 mb-md-4">¡Juego Terminado!</h2>
-                    <p class="lead mb-3 mb-md-4">Tu puntuación final es:</p>
-                    <div class="score-display mb-3 mb-md-4" th:text="${puntaje}"></div>
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card result-card text-center p-3 p-md-4">
+                    <div class="celebrate mb-2">🎉</div>
+                    <h2 class="mb-2 mb-md-3">¡Juego Terminado!</h2>
+                    <p class="lead mb-2 mb-md-3">Tu puntuación final es:</p>
+                    <div class="score-display mb-2 mb-md-3" th:text="${puntaje}"></div>
 
-                    <div class="d-grid gap-2 gap-md-3">
+                    <div class="d-grid gap-2">
                         <a th:href="@{/jugar}" class="btn btn-primary btn-lg">Jugar de nuevo</a>
-                        <a th:href="@{/ranking}" class="btn btn-outline-secondary btn-lg">Ver ranking</a>
+                        <a th:href="@{/ranking}" class="btn btn-secondary btn-lg">Ver ranking</a>
+                        <!--<a th:href="@{/ranking}" class="btn btn-outline-secondary btn-lg">Ver ranking</a>-->
                     </div>
                 </div>
             </div>

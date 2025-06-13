@@ -1,6 +1,8 @@
 package com.tcna.primeraweb.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,8 +20,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "no debe estar vacío")
+    @Size(min = 3, max = 50, message = "debe tener entre 3 y 50 caracteres")
     private String username;
+
+    @NotBlank(message = "no debe estar vacío")
+    @Size(min = 5, max = 200, message = "debe tener minimo 5")
     private String password;
+
     private boolean enabled;
 
     //HashSet porque puede tener un conjunto de roles (varios roles)
@@ -34,7 +42,7 @@ public class User {
 
     private LocalDateTime fecharegistro = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Juego> juegos;
 
 
@@ -45,8 +53,6 @@ public class User {
     public User(Long id) {
         this.id = id;
     }
-
-
 
 }
 

@@ -37,23 +37,23 @@
         }
 
         .category-icon {
-            font-size: 2.5rem;
+            font-size: 2rem;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 1rem;
             border-radius: 50%;
             background-color: rgba(102, 126, 234, 0.1);
         }
 
         .category-card .card-body {
-            padding: 2rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -62,27 +62,35 @@
         .category-card h3 {
             color: var(--dark-color);
             font-weight: 600;
-            margin-bottom: 1rem;
-            min-height: 3rem;
+            margin-bottom: 0.75rem;
+            min-height: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.1rem;
         }
 
         .category-card p {
             color: #6c757d;
             flex-grow: 1;
-            margin-bottom: 1.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
+            margin-bottom: 1rem;
             overflow: hidden;
             text-overflow: ellipsis;
-            min-height: 4.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Mostrar máximo 3 líneas */
+            -webkit-box-orient: vertical;
+            min-height: 4.5rem; /* Altura suficiente para 3 líneas */
+            font-size: 0.9rem;
+            line-height: 1.4; /* Mejor espaciado entre líneas */
         }
 
         .category-action {
             margin-top: auto;
+        }
+
+        .category-action .btn {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
         }
 
         .page-header {
@@ -108,7 +116,7 @@
         }
 
         .category-emoji {
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
 
         .category-col {
@@ -139,31 +147,30 @@
             }
 
             .category-card .card-body {
-                padding: 1.5rem;
+                padding: 1.25rem;
             }
 
             .category-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
-                margin-bottom: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                margin-bottom: 0.75rem;
             }
 
             .category-card h3 {
-                font-size: 1.1rem;
-                min-height: 2.5rem;
+                font-size: 1rem;
+                min-height: 2rem;
             }
 
             .category-card p {
-                font-size: 0.9rem;
-                min-height: 3.5rem;
-                -webkit-line-clamp: 2;
-                margin-bottom: 1rem;
+                font-size: 0.85rem;
+                min-height: 3.8rem; /* Ajuste para móviles */
+                -webkit-line-clamp: 3; /* Mantener 3 líneas en móviles */
+                margin-bottom: 0.75rem;
             }
 
             .category-action .btn {
-                font-size: 0.85rem;
-                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
             }
         }
 
@@ -178,22 +185,18 @@
             }
 
             .category-card .card-body {
-                padding: 1.25rem;
+                padding: 1rem;
             }
 
             .category-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-
-            .category-card h3 {
-                font-size: 1rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
 
             .category-card p {
-                font-size: 0.85rem;
-                min-height: 3rem;
+                min-height: 3.5rem;
+                -webkit-line-clamp: 3; /* Mantener 3 líneas */
             }
 
             .category-grid {

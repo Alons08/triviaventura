@@ -15,6 +15,5 @@ public class PrimeraWebSpringbootApplication{
 		SpringApplication.run(PrimeraWebSpringbootApplication.class, args);
 	}
 
-
 }
 

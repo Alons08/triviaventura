@@ -2,9 +2,11 @@ package com.tcna.primeraweb.controllers;
 
 import com.tcna.primeraweb.models.Categoria;
 import com.tcna.primeraweb.services.CategoriaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -27,15 +29,20 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardarCategoria(@ModelAttribute Categoria categoria){
+    public String guardarCategoria(@Valid @ModelAttribute Categoria categoria,
+                                   BindingResult bindingResult,
+                                   Model model) {
+        if (bindingResult.hasErrors()) {
+            return "categoria/formulario";
+        }
         service.crear(categoria);
-        return "redirect:/categorias"; //endpoint
+        return "redirect:/categorias";
     }
 
     @GetMapping("/editar/{id}")
-    public String mostrarFormularioDeEditarCategoria(@PathVariable Long id, Model model){
+    public String mostrarFormularioDeEditarCategoria(@PathVariable Long id, Model model) {
         model.addAttribute("categoria", service.obtenerPorId(id));
-        return "categoria/formulario"; //archivo html
+        return "categoria/formulario";
     }
 
     @GetMapping("/eliminar/{id}")

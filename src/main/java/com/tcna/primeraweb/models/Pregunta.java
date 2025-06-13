@@ -28,21 +28,21 @@ public class Pregunta {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    @NotBlank
-    @Size(min = 8, max= 150)
+    @NotBlank(message = "no debe estar vacío")
+    @Size(min = 8, max = 150, message = "debe tener entre 8 y 150 caracteres")
     @Column(columnDefinition = "TEXT")
     private String textoPregunta;
 
-    @NotBlank
-    @Size(min = 1, max= 30) //poner mas numero aqui mas adelante
+    @NotBlank(message = "no debe estar vacío")
+    @Size(min = 1, max = 40, message = "debe tener entre 1 y 40 caracteres")
     private String opcionA;
 
-    @NotBlank
-    @Size(min = 1, max= 30)
+    @NotBlank(message = "no debe estar vacío")
+    @Size(min = 1, max = 40, message = "debe tener entre 1 y 40 caracteres")
     private String opcionB;
 
-    @NotBlank
-    @Size(min = 1, max= 30)
+    @NotBlank(message = "no debe estar vacío")
+    @Size(min = 1, max = 40, message = "debe tener entre 1 y 40 caracteres")
     private String opcionC;
 
     @Pattern(regexp = "[ABC]")

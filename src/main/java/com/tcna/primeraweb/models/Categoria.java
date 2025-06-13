@@ -23,15 +23,15 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
+    @NotBlank(message = "no debe estar vacío")
+    @Size(min = 3, max = 50, message = "debe tener entre 3 y 50 caracteres")
     private String nombre;
 
-    @NotBlank
-    @Size(min = 5, max = 100)
+    @NotBlank(message = "no debe estar vacía")
+    @Size(min = 10, max = 100, message = "debe tener entre 10 y 50 caracteres")
     private String descripcion;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pregunta> preguntas = new ArrayList<>();
 
     // Constructor adicional

@@ -36,6 +36,7 @@ public class Juego {
 
     private Integer puntaje = 0;
 
-    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DetalleJuego> detalleJuegos;
+    
 }
