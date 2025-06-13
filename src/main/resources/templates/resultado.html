@@ -17,6 +17,7 @@
             flex-direction: column;
             min-height: 100vh;
             background-color: #f8f9fa;
+            font-size: 16px;
         }
 
         .content-wrapper {
@@ -50,67 +51,105 @@
             50% { transform: translateY(-15px); }
         }
 
+        .btn-lg {
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+        }
+
         /* Estilos para móviles */
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem !important;
+            body {
+                font-size: 18px;
             }
 
-            .result-card {
+            .container {
                 padding: 1.5rem !important;
             }
 
+            .result-card {
+                padding: 2rem !important;
+                margin: 0.5rem 0;
+            }
+
             .score-display {
-                font-size: 3rem;
+                font-size: 3.5rem;
+                margin: 1.5rem 0 !important;
             }
 
             .celebrate {
-                font-size: 2.5rem;
+                font-size: 3rem;
+                margin-bottom: 1rem !important;
             }
 
             h2 {
-                font-size: 1.4rem;
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem !important;
             }
 
             .lead {
-                font-size: 1rem;
+                font-size: 1.2rem;
+                margin-bottom: 1.5rem !important;
+            }
+
+            .d-grid {
+                gap: 1.25rem !important;
+                margin-top: 2rem;
             }
 
             .btn-lg {
-                padding: 0.5rem;
-                font-size: 0.9rem;
+                padding: 1.1rem;
+                font-size: 1.2rem;
             }
         }
 
         /* Estilos para pantallas muy pequeñas */
         @media (max-width: 576px) {
-            .result-card {
+            body {
+                font-size: 16px;
+            }
+
+            .container {
                 padding: 1.25rem !important;
-                margin: 0.5rem;
+            }
+
+            .result-card {
+                padding: 1.75rem !important;
+                border-radius: 12px;
             }
 
             .score-display {
-                font-size: 2.5rem;
-                margin-bottom: 1rem !important;
+                font-size: 3rem;
+                margin: 1.25rem 0 !important;
             }
 
             .celebrate {
-                font-size: 2rem;
-                margin-bottom: 0.5rem !important;
-            }
-
-            h2 {
-                font-size: 1.2rem;
+                font-size: 2.5rem;
                 margin-bottom: 0.75rem !important;
             }
 
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.25rem !important;
+                line-height: 1.4;
+            }
+
             .lead {
-                font-size: 0.9rem;
-                margin-bottom: 1rem !important;
+                font-size: 1.1rem;
+                margin-bottom: 1.25rem !important;
+                line-height: 1.5;
             }
 
             .d-grid {
-                gap: 0.75rem !important;
+                gap: 1rem !important;
+                margin-top: 1.75rem;
+            }
+
+            .btn-lg {
+                padding: 1rem;
+                font-size: 1.1rem;
             }
         }
     </style>
