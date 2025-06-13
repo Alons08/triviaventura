@@ -138,6 +138,9 @@
                             <button type="button" class="password-toggle" id="togglePassword">
                                 <i class="bi bi-eye"></i>
                             </button>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
+                                <span th:errors="*{password}"></span>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-success btn-lg px-4 mb-3 w-100">
