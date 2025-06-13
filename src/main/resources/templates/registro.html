@@ -131,7 +131,9 @@
 
                         <div class="form-floating mb-4 password-container">
                             <input type="password" class="form-control" id="password"
-                                   th:field="*{password}" required>
+                                   th:field="*{password}"
+                                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                                   required>
                             <label for="password">Contraseña</label>
                             <button type="button" class="password-toggle" id="togglePassword">
                                 <i class="bi bi-eye"></i>

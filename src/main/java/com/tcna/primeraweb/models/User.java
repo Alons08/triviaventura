@@ -25,7 +25,7 @@ public class User {
     private String username;
 
     @NotBlank(message = "no debe estar vacío")
-    @Size(min = 5, max = 200, message = "debe tener minimo 5")
+    @Size(min = 5, max = 200, message = "debe tener minimo 5 caracteres")
     private String password;
 
     private boolean enabled;
