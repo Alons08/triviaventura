@@ -10,6 +10,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
+            font-size: 16px; /* Tamaño base más grande para móviles */
         }
 
         body {
@@ -32,7 +33,10 @@
             white-space: normal;
             text-align: left;
             word-wrap: break-word;
-            padding: 0.75rem 1rem;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 8px !important;
         }
 
         .option-btn.selected-correct {
@@ -48,62 +52,110 @@
             color: white !important;
         }
 
+        .card-title {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h5 {
+            font-size: 1.1rem;
+        }
+
+        .progress-info {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
         /* Estilos para móviles */
         @media (max-width: 768px) {
+            body {
+                font-size: 18px; /* Tamaño de fuente más grande en móviles */
+            }
+
             .container {
                 padding: 1rem !important;
             }
 
-            .card-header h5 {
-                font-size: 1.1rem;
+            .card {
+                border-radius: 12px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                margin-bottom: 1.5rem;
             }
 
-            .card-title {
+            .card-header {
+                padding: 1rem !important;
+            }
+
+            .card-header h5 {
                 font-size: 1.2rem;
             }
 
+            .card-body {
+                padding: 1.5rem !important;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+                margin-bottom: 2rem !important;
+            }
+
             .timer, .fw-bold {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
 
             .option-btn {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.9rem;
+                padding: 1.25rem 1.5rem;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
             }
 
             .progress-info {
-                flex-direction: column;
-                gap: 0.5rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .progress-info > div {
+                flex: 1 1 100%;
+                text-align: center;
+                background: white;
+                padding: 0.75rem;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             }
         }
 
         /* Estilos para pantallas muy pequeñas */
         @media (max-width: 576px) {
+            body {
+                font-size: 16px;
+            }
+
             .container {
-                padding: 0.5rem !important;
+                padding: 0.75rem !important;
             }
 
-            .card {
-                margin-bottom: 1rem;
-            }
-
-            .card-body {
-                padding: 1rem !important;
+            .card-header h5 {
+                font-size: 1.15rem;
             }
 
             .card-title {
-                font-size: 1.1rem;
-                margin-bottom: 1rem !important;
+                font-size: 1.25rem;
             }
 
             .option-btn {
-                padding: 0.5rem 0.7rem;
-                font-size: 0.85rem;
+                padding: 1.1rem 1.25rem;
+                font-size: 1.05rem;
+            }
+
+            .progress-info {
+                gap: 0.75rem;
             }
 
             .progress-info > div {
-                text-align: center !important;
-                width: 100%;
+                flex: 1 1 calc(50% - 0.5rem);
             }
         }
     </style>
