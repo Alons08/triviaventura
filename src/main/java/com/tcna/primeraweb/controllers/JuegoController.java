@@ -48,7 +48,6 @@ public class JuegoController {
 
             // Obtener 7 preguntas aleatorias para este juego
             List<Pregunta> preguntasJuego = preguntaService.obtenerPreguntasAleatoriasPorCategoria(categoriaId, 7);
-
             // Crear los detalles de juego con las preguntas seleccionadas
             for (Pregunta pregunta : preguntasJuego) {
                 DetalleJuego detalle = new DetalleJuego();
@@ -75,7 +74,6 @@ public class JuegoController {
             }
 
             List<DetalleJuego> detalles = detalleJuegoService.obtenerDetallesPorJuego(juegoId);
-
             if(detalles.isEmpty()) {
                 return "redirect:/jugar?error=No hay preguntas para este juego";
             }
@@ -86,13 +84,11 @@ public class JuegoController {
 
             DetalleJuego detalleActual = detalles.get(preguntaNum - 1);
             Pregunta pregunta = detalleActual.getPregunta();
-
             model.addAttribute("juego", juego);
             model.addAttribute("pregunta", pregunta);
             model.addAttribute("juegoId", juegoId);
             model.addAttribute("preguntaActual", preguntaNum);
             model.addAttribute("totalPreguntas", detalles.size());
-
             return "pregunta";
         } catch (Exception e) {
             return "redirect:/jugar?error=Ocurrió un error inesperado";
@@ -117,7 +113,6 @@ public class JuegoController {
             detalle.setRespuestaUsuario(respuestaUsuario);
             detalle.setEsCorrecta(respuestaUsuario.equals(pregunta.getRespuestaCorrecta()));
             detalleJuegoService.actualizar(detalle.getId(), detalle);
-
             if(detalle.isEsCorrecta()) {
                 juego.setPuntaje(juego.getPuntaje() + 10);
                 juegoService.actualizar(juegoId, juego);
@@ -140,10 +135,8 @@ public class JuegoController {
         Juego juego = juegoService.obtenerPorId(juegoId);
         juego.setFechaFin(LocalDateTime.now());
         juegoService.actualizar(juegoId, juego);
-
         // Actualizar el puntaje acumulado por categoría
         juegoService.actualizarPuntajePorCategoria(juego.getUsuario().getId(), juego.getCategoria().getId(), juego.getPuntaje());
-
         model.addAttribute("puntaje", juego.getPuntaje());
         return "resultado";
     }

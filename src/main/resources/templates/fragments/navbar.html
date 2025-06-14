@@ -17,7 +17,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <!-- Mostrar solo si está autenticado -->
+                <!-- Mostrar solo si está autenticado [todos los roles]-->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link d-flex align-items-center py-2" th:href="@{/jugar}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-joystick me-2" viewBox="0 0 16 16">
@@ -34,9 +34,9 @@
                         </svg>
                         Ranking
                     </a>
-                </li>
+                </li> <!--además saldra Cerrar Sesión que lo definí mas abajo tmbn-->
 
-                <!-- Opciones solo para ADMIN -->
+                <!-- Opciones solo para rol ADMIN -->
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link d-flex align-items-center py-2" th:href="@{/preguntas}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle me-2" viewBox="0 0 16 16">
@@ -56,7 +56,7 @@
                     </a>
                 </li>
 
-                <!-- Botón de cerrar sesión (solo visible cuando está autenticado) -->
+                <!-- Botón de cerrar sesión (solo visible cuando está autenticado [todos los roles]) -->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post" class="d-inline">
                         <button type="submit" class="nav-link btn btn-link d-flex align-items-center py-2">

@@ -37,7 +37,6 @@ public class RegistroController {
         if (userRepository.existsByUsername(user.getUsername())) {
             bindingResult.rejectValue("username", "error.user", "El nombre de usuario ya está en uso");
         }
-
         if (bindingResult.hasErrors()) {
             return "registro";
         }
@@ -48,7 +47,6 @@ public class RegistroController {
         user.setRoles(Collections.singleton(userRole));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
-
         userRepository.save(user);
         return "redirect:/login?registroExitoso";
     }

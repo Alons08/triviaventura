@@ -16,7 +16,7 @@ public class CategoriaController {
 
     private final CategoriaService service;
 
-    @GetMapping("")
+    @GetMapping
     public String listarCategorias(Model model){
         model.addAttribute("categorias", service.listarTodos());
         return "categoria/listado"; //archivo html

@@ -29,7 +29,7 @@ public class WebSecurityConfig {
     }
 
     /*Haremos una implementacion del AuthenticationProvider que se utiliza
-        comunmente para autenticar usuarios en BD. Además, es el respondable
+        comunmente para autenticar usuarios en BD. Además, es el responsable
          de verificar las credenciales del usuario y autenticar el usuario*/
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
@@ -52,37 +52,41 @@ public class WebSecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                // Se definen las reglas de acceso a las rutas
                 .authorizeHttpRequests(auth -> auth
-                        // Rutas públicas
-                        .requestMatchers("/", "/login", "/registro", "/registro/**", "/css/**", "/js/**", "/images/**").permitAll()
+                        //rutas públicas
+                        .requestMatchers("/", "/login", "/registro", "/css/**", "/js/**", "/images/**").permitAll()
 
-                        // Rutas de administración (CRUD Categorías y Preguntas)
+                        //rutas de administración (CRUD Categorías y Preguntas)
                         .requestMatchers("/categorias", "/categorias/**").hasAuthority("ADMIN")
                         .requestMatchers("/preguntas", "/preguntas/**").hasAuthority("ADMIN")
 
-                        // Rutas de juego/trivia
+                        //rutas de juego (trivia)
                         .requestMatchers("/jugar", "/jugar/**").hasAnyAuthority("USER", "ADMIN")
 
-                        // Ranking (accesible para todos los usuarios autenticados)
+                        //ranking (accesible para todos los usuarios autenticados)
                         .requestMatchers("/ranking").authenticated()
 
-                        // Todas las demás rutas requieren autenticación
+                        //todas las demás rutas requieren autenticación
                         .anyRequest().authenticated()
                 )
+                // Configura el manejo del inicio de sesión en la aplicación.
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/ranking", true) // Redirigir al ranking después del login
-                        .permitAll()
+                        .loginPage("/login") /*ENNN "WebMvcConfigurer" vinculo el endpoint a un HTML*/
+                        .defaultSuccessUrl("/ranking", true) //redirigir al ranking después del login
+                        .permitAll() //permite el acceso al cierre de sesión para todos.
                 )
+                // Configura el manejo del cierre de sesión en la aplicación.
                 .logout(logout -> logout
-                        .logoutUrl("/logout")  // Asegúrate de que coincida con el enlace en tu navbar
-                        .logoutSuccessUrl("/login?logout")  // Redirige a login con parámetro de logout
-                        .invalidateHttpSession(true)  // Invalida la sesión
-                        .deleteCookies("JSESSIONID")  // Elimina cookies de sesión
-                        .permitAll()
+                        .logoutUrl("/logout")  //define la URL para realizar el cierre de sesión
+                        .logoutSuccessUrl("/login?logout")  //redirige a login con parámetro de logout
+                        .invalidateHttpSession(true)  //invalida la sesión
+                        .deleteCookies("JSESSIONID")  //elimina cookies de sesión
+                        .permitAll() //permite el acceso al cierre de sesión para todos.
                 )
+                // Configura el manejo de excepciones relacionadas con el acceso denegado
                 .exceptionHandling(e -> e
-                        .accessDeniedPage("/403")
+                        .accessDeniedPage("/403") /*ENNN "WebMvcConfigurer" vinculo el endpoint a un HTML*/
                 );
 
         return httpSecurity.build();
