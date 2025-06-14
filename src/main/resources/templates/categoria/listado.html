@@ -24,10 +24,6 @@
             padding-bottom: 20px;
         }
 
-        .footer-wrapper {
-            margin-top: auto;
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 1rem !important;
@@ -175,6 +171,6 @@
 </script>
 
 <!-- Incluir el footer -->
-<div class="footer-wrapper" th:insert="fragments/footer :: footer"></div>
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>
