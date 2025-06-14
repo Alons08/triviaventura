@@ -29,72 +29,110 @@ public class JuegoController {
 
     @PostMapping("/iniciar")
     public String iniciarJuego(@RequestParam Long categoriaId,
-                               @AuthenticationPrincipal MyUserDetails userDetails) {
-        // Crear un nuevo juego
-        Juego juego = new Juego();
-        juego.setUsuario(userDetails.getUser());
-        juego.setCategoria(new Categoria(categoriaId)); // Asociar la categoría al juego
-        juego.setFechaInicio(LocalDateTime.now());
-        juego = juegoService.crear(juego);
+                               @AuthenticationPrincipal MyUserDetails userDetails,
+                               Model model) {
+        try {
+            // Verificar que la categoría tenga al menos 7 preguntas
+            int totalPreguntas = preguntaService.contarPreguntasPorCategoria(categoriaId);
+            if(totalPreguntas < 7) {
+                model.addAttribute("error", "La categoría seleccionada no tiene suficientes preguntas (mínimo 7)");
+                return "redirect:/jugar";
+            }
 
-        return "redirect:/jugar/pregunta?juegoId=" + juego.getId() + "&categoriaId=" + categoriaId;
+            // Crear un nuevo juego
+            Juego juego = new Juego();
+            juego.setUsuario(userDetails.getUser());
+            juego.setCategoria(new Categoria(categoriaId));
+            juego.setFechaInicio(LocalDateTime.now());
+            juego = juegoService.crear(juego);
+
+            // Obtener 7 preguntas aleatorias para este juego
+            List<Pregunta> preguntasJuego = preguntaService.obtenerPreguntasAleatoriasPorCategoria(categoriaId, 7);
+
+            // Crear los detalles de juego con las preguntas seleccionadas
+            for (Pregunta pregunta : preguntasJuego) {
+                DetalleJuego detalle = new DetalleJuego();
+                detalle.setJuego(juego);
+                detalle.setPregunta(pregunta);
+                detalleJuegoService.crear(detalle);
+            }
+
+            return "redirect:/jugar/pregunta?juegoId=" + juego.getId() + "&preguntaNum=1";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al iniciar el juego: " + e.getMessage());
+            return "redirect:/jugar";
+        }
     }
-
 
     @GetMapping("/pregunta")
     public String mostrarPregunta(@RequestParam Long juegoId,
-                                @RequestParam Long categoriaId,
-                                Model model) {
-        Juego juego = juegoService.obtenerPorId(juegoId);
+                                  @RequestParam int preguntaNum,
+                                  Model model) {
+        try {
+            Juego juego = juegoService.obtenerPorId(juegoId);
+            if(juego == null) {
+                return "redirect:/jugar?error=Juego no encontrado";
+            }
 
-        // Obtener preguntas ya respondidas
-        List<Long> preguntasRespondidas = detalleJuegoService.obtenerPreguntasRespondidasPorJuego(juegoId);
+            List<DetalleJuego> detalles = detalleJuegoService.obtenerDetallesPorJuego(juegoId);
 
-        // Obtener una pregunta aleatoria que no haya sido respondida
-        Pregunta pregunta = preguntaService.obtenerPreguntaAleatoriaPorCategoriaExcluyendo(categoriaId, preguntasRespondidas);
+            if(detalles.isEmpty()) {
+                return "redirect:/jugar?error=No hay preguntas para este juego";
+            }
 
-        if (pregunta == null) {
-            // Si no hay más preguntas, finalizar el juego
-            return "redirect:/jugar/finalizar/" + juegoId;
+            if(preguntaNum > detalles.size()) {
+                return "redirect:/jugar/finalizar/" + juegoId;
+            }
+
+            DetalleJuego detalleActual = detalles.get(preguntaNum - 1);
+            Pregunta pregunta = detalleActual.getPregunta();
+
+            model.addAttribute("juego", juego);
+            model.addAttribute("pregunta", pregunta);
+            model.addAttribute("juegoId", juegoId);
+            model.addAttribute("preguntaActual", preguntaNum);
+            model.addAttribute("totalPreguntas", detalles.size());
+
+            return "pregunta";
+        } catch (Exception e) {
+            return "redirect:/jugar?error=Ocurrió un error inesperado";
         }
-
-        // Calcular el número de la pregunta actual y el total de preguntas
-        int preguntaActual = preguntasRespondidas.size() + 1;
-        int totalPreguntas = preguntaService.contarPreguntasPorCategoria(categoriaId);
-
-        model.addAttribute("juego", juego);
-        model.addAttribute("pregunta", pregunta);
-        model.addAttribute("juegoId", juegoId);
-        model.addAttribute("preguntaActual", preguntaActual);
-        model.addAttribute("totalPreguntas", totalPreguntas);
-
-        return "pregunta";
     }
-
 
     @PostMapping("/responder")
     public String procesarRespuesta(@RequestParam Long juegoId,
                                     @RequestParam Long preguntaId,
-                                    @RequestParam String respuestaUsuario) {
-        // Procesar respuesta y guardar detalle
-        Juego juego = juegoService.obtenerPorId(juegoId);
-        Pregunta pregunta = preguntaService.obtenerPorId(preguntaId);
+                                    @RequestParam(required = false) String respuestaUsuario,
+                                    @RequestParam int preguntaActual) {
+        try {
+            Juego juego = juegoService.obtenerPorId(juegoId);
+            Pregunta pregunta = preguntaService.obtenerPorId(preguntaId);
 
-        DetalleJuego detalle = new DetalleJuego();
-        detalle.setJuego(juego);
-        detalle.setPregunta(pregunta);
-        detalle.setRespuestaUsuario(respuestaUsuario);
-        detalle.setEsCorrecta(respuestaUsuario.equals(pregunta.getRespuestaCorrecta()));
+            // Si no se proporcionó respuesta (tiempo agotado), considerar como incorrecta
+            if(respuestaUsuario == null) {
+                respuestaUsuario = "";
+            }
 
-        detalleJuegoService.crear(detalle);
+            DetalleJuego detalle = detalleJuegoService.obtenerDetallePorJuegoYPregunta(juegoId, preguntaId);
+            detalle.setRespuestaUsuario(respuestaUsuario);
+            detalle.setEsCorrecta(respuestaUsuario.equals(pregunta.getRespuestaCorrecta()));
+            detalleJuegoService.actualizar(detalle.getId(), detalle);
 
-        // Actualizar puntaje si la respuesta es correcta
-        if(detalle.isEsCorrecta()) {
-            juego.setPuntaje(juego.getPuntaje() + 10); // +10 puntos por respuesta correcta
-            juegoService.actualizar(juegoId, juego);
+            if(detalle.isEsCorrecta()) {
+                juego.setPuntaje(juego.getPuntaje() + 10);
+                juegoService.actualizar(juegoId, juego);
+            }
+
+            // Verificar si es la última pregunta
+            int totalPreguntas = detalleJuegoService.obtenerDetallesPorJuego(juegoId).size();
+            if(preguntaActual >= totalPreguntas) {
+                return "redirect:/jugar/finalizar/" + juegoId;
+            } else {
+                return "redirect:/jugar/pregunta?juegoId=" + juegoId + "&preguntaNum=" + (preguntaActual + 1);
+            }
+        } catch (Exception e) {
+            return "redirect:/jugar?error=Error al procesar respuesta";
         }
-
-        return "redirect:/jugar/pregunta?juegoId=" + juegoId + "&categoriaId=" + pregunta.getCategoria().getId();
     }
 
     @GetMapping("/finalizar/{juegoId}")
@@ -109,5 +147,4 @@ public class JuegoController {
         model.addAttribute("puntaje", juego.getPuntaje());
         return "resultado";
     }
-
 }

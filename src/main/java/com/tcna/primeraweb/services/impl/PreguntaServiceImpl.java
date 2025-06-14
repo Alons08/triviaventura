@@ -70,4 +70,9 @@ public class PreguntaServiceImpl implements PreguntaService {
         return preguntaRepository.countByCategoriaId(categoriaId);
     }
 
+    @Override
+    public List<Pregunta> obtenerPreguntasAleatoriasPorCategoria(Long categoriaId, int cantidad) {
+        return preguntaRepository.findRandomByCategoria(categoriaId, cantidad);
+    }
+
 }

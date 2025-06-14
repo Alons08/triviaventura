@@ -3,6 +3,7 @@ package com.tcna.primeraweb.repositories;
 import com.tcna.primeraweb.models.Juego;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,9 +15,6 @@ public interface JuegoRepository extends JpaRepository<Juego, Long> {
 
     //INGLES
     //Aqui puedo poner más metodos a parte del CRUD [1]
-
-    // Método para obtener todos los juegos de un usuario específico
-    List<Juego> findByUsuarioId(Long usuarioId);
 
     // Otros métodos existentes
     List<Juego> findTop10ByOrderByPuntajeDesc();
@@ -31,13 +29,24 @@ public interface JuegoRepository extends JpaRepository<Juego, Long> {
     @Query("SELECT j.usuario.id, SUM(j.puntaje) FROM Juego j GROUP BY j.usuario.id ORDER BY SUM(j.puntaje) DESC")
     List<Object[]> findRankingUsuariosPorPuntajeTotal();
 
-    @Query("SELECT j.usuario.username, SUM(j.puntaje) FROM Juego j WHERE j.fechaInicio = " +
-            "(SELECT MAX(j2.fechaInicio) FROM Juego j2 WHERE j2.usuario = j.usuario AND j2.categoria = j.categoria) " +
-            "GROUP BY j.usuario.username ORDER BY SUM(j.puntaje) DESC")
-    List<Object[]> findRankingUsuariosPorUltimosJuegos();
+    @Query("SELECT j FROM Juego j WHERE j.usuario.username = :username")
+    List<Juego> findByUsuarioUsername(@Param("username") String username);
 
-    @Query("SELECT SUM(j.puntaje) FROM Juego j WHERE j.usuario.username = :username AND j.fechaInicio = " +
-            "(SELECT MAX(j2.fechaInicio) FROM Juego j2 WHERE j2.usuario.username = :username AND j2.categoria = j.categoria)")
-    Optional<Integer> calculateTotalScoreByUsername(String username);
+    @Query("SELECT j FROM Juego j WHERE j.usuario.username = :username ORDER BY j.fechaInicio DESC")
+    List<Juego> findByUsuarioUsernameOrderByFechaInicioDesc(@Param("username") String username);
+
+    @Query("SELECT u.username, SUM(CASE WHEN dj.esCorrecta = true THEN 10 ELSE 0 END) as puntajeTotal " +
+            "FROM DetalleJuego dj " +
+            "JOIN Juego j ON dj.juego.id = j.id " +
+            "JOIN User u ON j.usuario.id = u.id " +  // Cambiado de u.user_id a u.id
+            "WHERE dj.id IN (" +
+            "    SELECT MAX(dj2.id) FROM DetalleJuego dj2 " +
+            "    JOIN Juego j2 ON dj2.juego.id = j2.id " +
+            "    WHERE j2.usuario.id = u.id " +  // Cambiado de u.user_id a u.id
+            "    GROUP BY dj2.pregunta.id" +
+            ") " +
+            "GROUP BY u.username " +
+            "ORDER BY puntajeTotal DESC")
+    List<Object[]> findRankingUsuariosPorUltimosJuegos();
 
 }

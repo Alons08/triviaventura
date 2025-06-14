@@ -50,4 +50,15 @@ public class DetalleJuegoServiceImpl implements DetalleJuegoService {
         return detalleJuegoRepository.findPreguntasRespondidasPorJuego(juegoId);
     }
 
+    @Override
+    public List<DetalleJuego> obtenerDetallesPorJuego(Long juegoId) {
+        return detalleJuegoRepository.findByJuegoId(juegoId);
+    }
+
+    @Override
+    public DetalleJuego obtenerDetallePorJuegoYPregunta(Long juegoId, Long preguntaId) {
+        return detalleJuegoRepository.findByJuegoIdAndPreguntaId(juegoId, preguntaId)
+                .orElseThrow(() -> new RuntimeException("Detalle no encontrado"));
+    }
+
 }

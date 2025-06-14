@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DetalleJuegoRepository extends JpaRepository<DetalleJuego, Long> {
@@ -16,5 +17,10 @@ public interface DetalleJuegoRepository extends JpaRepository<DetalleJuego, Long
 
     @Query("SELECT d.pregunta.id FROM DetalleJuego d WHERE d.juego.id = :juegoId")
     List<Long> findPreguntasRespondidasPorJuego(@Param("juegoId") Long juegoId);
+
+    List<DetalleJuego> findByJuegoId(Long juegoId);
+
+    @Query("SELECT d FROM DetalleJuego d WHERE d.juego.id = :juegoId AND d.pregunta.id = :preguntaId")
+    Optional<DetalleJuego> findByJuegoIdAndPreguntaId(@Param("juegoId") Long juegoId, @Param("preguntaId") Long preguntaId);
 
 }

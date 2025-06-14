@@ -1,17 +1,17 @@
 package com.tcna.primeraweb.services.impl;
 
 import com.tcna.primeraweb.models.Categoria;
+import com.tcna.primeraweb.models.DetalleJuego;
 import com.tcna.primeraweb.models.Juego;
 import com.tcna.primeraweb.models.User;
+import com.tcna.primeraweb.repositories.DetalleJuegoRepository;
 import com.tcna.primeraweb.repositories.JuegoRepository;
 import com.tcna.primeraweb.services.JuegoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class JuegoServiceImpl implements JuegoService {
 
     private final JuegoRepository juegoRepository;
+    private final DetalleJuegoRepository detalleJuegoRepository;
 
     @Override
     public List<Juego> listarTodos() {
@@ -93,14 +94,6 @@ public class JuegoServiceImpl implements JuegoService {
     }
 
     @Override
-    public int calcularPuntajeTotal(Long usuarioId) {
-        return juegoRepository.findByUsuarioId(usuarioId)
-                .stream()
-                .mapToInt(Juego::getPuntaje)
-                .sum();
-    }
-
-    @Override
     public List<Object[]> obtenerRankingUsuariosPorPuntajeTotal() {
         return juegoRepository.findRankingUsuariosPorPuntajeTotal();
     }
@@ -112,7 +105,35 @@ public class JuegoServiceImpl implements JuegoService {
 
     @Override
     public int calcularPuntajeTotalPorUsuario(String username) {
-        return juegoRepository.calculateTotalScoreByUsername(username).orElse(0); // Devuelve 0 si no hay puntaje
+        // Obtener todos los juegos del usuario ordenados por fecha (más reciente primero)
+        List<Juego> juegos = juegoRepository.findByUsuarioUsernameOrderByFechaInicioDesc(username);
+
+        // Mapa para guardar el último estado de cada pregunta (preguntaId -> esCorrecta)
+        Map<Long, Boolean> estadoUltimaRespuesta = new HashMap<>();
+
+        // Recorrer todos los juegos del usuario
+        for (Juego juego : juegos) {
+            List<DetalleJuego> detalles = detalleJuegoRepository.findByJuegoId(juego.getId());
+
+            // Procesar cada pregunta del juego
+            for (DetalleJuego detalle : detalles) {
+                Long preguntaId = detalle.getPregunta().getId();
+
+                // Solo guardamos el estado si no hemos visto esta pregunta antes
+                // (como estamos ordenados por fecha descendente, el primero que encontramos es el más reciente)
+                estadoUltimaRespuesta.putIfAbsent(preguntaId, detalle.isEsCorrecta());
+            }
+        }
+
+        // Sumar puntos solo de las respuestas correctas más recientes
+        int puntajeTotal = 0;
+        for (Boolean esCorrecta : estadoUltimaRespuesta.values()) {
+            if (esCorrecta) {
+                puntajeTotal += 10; // 10 puntos por cada respuesta correcta
+            }
+        }
+
+        return puntajeTotal;
     }
 
 }

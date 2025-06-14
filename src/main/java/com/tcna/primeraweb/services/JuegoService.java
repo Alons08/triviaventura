@@ -14,9 +14,6 @@ public interface JuegoService extends ICRUD<Juego, Long>{
     // Nuevo método: Actualizar puntaje por categoría
     void actualizarPuntajePorCategoria(Long usuarioId, Long categoriaId, int nuevoPuntaje);
 
-    // Nuevo método: Calcular puntaje total acumulado de un usuario
-    int calcularPuntajeTotal(Long usuarioId);
-
     // Nuevo método: Obtener ranking basado en puntaje total acumulado
     List<Object[]> obtenerRankingUsuariosPorPuntajeTotal();
 
