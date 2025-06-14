@@ -6,152 +6,313 @@
     <title>Seleccionar Categoría | Triviaventura</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --hover-color: #5a67d8;
-            --dark-color: #2d3748;
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --dark-color: #2d3436;
             --light-color: #f8f9fa;
+            --accent-color: #fd79a8;
+            --success-color: #00b894;
+            --warning-color: #fdcb6e;
+            --info-color: #0984e3;
         }
 
         body {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
+            color: var(--dark-color);
         }
 
+       /* Navbar personalizado */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+            box-shadow: 0 2px 10px rgba(108, 92, 231, 0.2);
+            padding: 0.75rem 1rem;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Encabezado mejorado */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .page-header h1 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-header h1:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #636e72;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Tarjetas de categoría mejoradas */
         .category-card {
-            transition: all 0.3s ease;
-            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 16px;
             overflow: hidden;
             border: none;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             background-color: white;
             height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 2;
         }
 
         .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .category-icon {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.75rem;
-            border-radius: 50%;
-            background-color: rgba(102, 126, 234, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(108, 92, 231, 0.2);
         }
 
         .category-card .card-body {
-            padding: 1.25rem;
+            padding: 1.75rem;
             display: flex;
             flex-direction: column;
             height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(162, 155, 254, 0.1) 100%);
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
         }
 
         .category-card h3 {
             color: var(--dark-color);
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-            line-height: 1.3;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .category-card:hover h3 {
+            color: var(--primary-color);
         }
 
         .category-card p {
-            color: #6c757d;
+            color: #636e72;
             flex-grow: 1;
-            margin-bottom: 0.75rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            min-height: 3.8rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: center;
+            min-height: 4.5rem;
         }
 
         .category-action {
-            margin-top: 0.5rem;
+            margin-top: auto;
         }
 
         .category-action .btn {
-            font-size: 0.85rem;
-            padding: 0.4rem 0.9rem;
-            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 10px;
             font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+            background-color: transparent;
+            color: var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .page-header {
+        .category-card:hover .category-action .btn {
+            background-color: var(--primary-color);
             color: white;
-            margin-bottom: 2rem;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
         }
 
-        .page-header h1 {
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .category-action .btn i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
         }
 
-        .page-header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
+        .category-card:hover .category-action .btn i {
+            transform: translateX(3px);
         }
 
+        /* Efecto de onda al hacer clic */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Grid de categorías */
         .category-grid {
-            padding-bottom: 2rem;
-        }
-
-        .category-emoji {
-            font-size: 1.6rem;
+            padding-bottom: 3rem;
         }
 
         .category-col {
             display: flex;
+            margin-bottom: 1.5rem;
         }
 
-        /* Estilos para laptop/desktop */
-        @media (min-width: 992px) {
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-col {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .category-col:nth-child(1) { animation-delay: 0.1s; }
+        .category-col:nth-child(2) { animation-delay: 0.2s; }
+        .category-col:nth-child(3) { animation-delay: 0.3s; }
+        .category-col:nth-child(4) { animation-delay: 0.4s; }
+        .category-col:nth-child(5) { animation-delay: 0.5s; }
+        .category-col:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Efecto hover para el formulario */
+        .category-form {
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .category-form:hover {
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+        /* --------------------------------------------- */
+        /* RESPONSIVE DESIGN */
+        /* --------------------------------------------- */
+
+        /* Tablets */
+        @media (max-width: 992px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
             .category-card .card-body {
                 padding: 1.5rem;
             }
 
+            .category-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+
             .category-card h3 {
-                font-size: 1.2rem;
-                margin-bottom: 0.75rem;
+                font-size: 1.1rem;
             }
 
             .category-card p {
-                font-size: 0.95rem;
-                min-height: 4rem;
-            }
-
-            .category-action .btn {
                 font-size: 0.9rem;
-                padding: 0.5rem 1rem;
+                min-height: 4rem;
             }
         }
 
-        /* Estilos para móviles */
+        /* Móviles grandes */
         @media (max-width: 768px) {
             .container {
-                padding: 1rem !important;
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
             }
 
             .page-header {
-                margin-bottom: 1.5rem;
+                margin-bottom: 2rem;
             }
 
             .page-header h1 {
@@ -163,19 +324,36 @@
                 padding: 0 0.5rem;
             }
 
-            .category-card {
+            .category-col {
                 margin-bottom: 1rem;
+            }
+        }
+
+        /* Móviles pequeños */
+        @media (max-width: 576px) {
+            .page-header h1 {
+                font-size: 1.4rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .page-header h1:after {
+                height: 3px;
+                bottom: -8px;
+            }
+
+            .page-header p {
+                font-size: 0.9rem;
             }
 
             .category-card .card-body {
-                padding: 1rem;
+                padding: 1.25rem;
             }
 
             .category-icon {
                 width: 50px;
                 height: 50px;
-                font-size: 1.4rem;
-                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
             }
 
             .category-card h3 {
@@ -184,42 +362,17 @@
 
             .category-card p {
                 font-size: 0.85rem;
-                min-height: 3.6rem;
-                margin-bottom: 0.5rem;
+                min-height: 3.8rem;
+                margin-bottom: 1rem;
             }
 
             .category-action .btn {
-                font-size: 0.8rem;
-                padding: 0.35rem 0.8rem;
-            }
-        }
-
-        /* Estilos para pantallas muy pequeñas */
-        @media (max-width: 576px) {
-            .page-header h1 {
-                font-size: 1.4rem;
-            }
-
-            .page-header p {
                 font-size: 0.85rem;
-            }
-
-            .category-card .card-body {
-                padding: 0.9rem;
-            }
-
-            .category-icon {
-                width: 45px;
-                height: 45px;
-                font-size: 1.2rem;
-            }
-
-            .category-card p {
-                min-height: 3.4rem;
+                padding: 0.4rem 1rem;
             }
 
             .category-grid {
-                padding-bottom: 1rem;
+                padding-bottom: 2rem;
             }
         }
     </style>
@@ -228,32 +381,35 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container py-3 py-lg-4">
-    <div class="page-header text-center">
-        <h1><i class="bi bi-bookmark-star"></i> Elige una categoría</h1>
-        <p>Selecciona el tema sobre el que quieres demostrar tus conocimientos y comienza el desafío.</p>
+<div class="container py-4 py-lg-5">
+    <div class="page-header">
+        <h1><i class="bi bi-bookmark-star me-2"></i>Elige una categoría</h1>
+        <p class="px-3">Selecciona el tema sobre el que quieres demostrar tus conocimientos y comienza el desafío.</p>
     </div>
 
-    <div class="row g-3 g-md-4 category-grid">
+    <div class="row g-4 category-grid">
         <div th:each="categoria, iter : ${categorias}" class="col-12 col-sm-6 col-lg-4 category-col">
-            <form th:action="@{/jugar/iniciar}" method="post" class="w-100">
+            <form th:action="@{/jugar/iniciar}" method="post" class="category-form w-100 h-100" id="form-${iter.index}">
                 <input type="hidden" name="categoriaId" th:value="${categoria.id}">
-                <button type="submit" class="btn btn-link p-0 w-100 h-100 text-decoration-none">
-                    <div class="card category-card w-100">
-                        <div class="card-body text-center">
+                <button type="submit" class="btn btn-link p-0 w-100 h-100 text-decoration-none position-relative overflow-hidden">
+                    <div class="card category-card w-100 h-100">
+                        <div class="card-body">
                             <div class="category-icon">
                                 <span th:switch="${iter.index % 6}">
-                                    <i th:case="0" class="bi bi-book category-emoji"></i>
-                                    <i th:case="1" class="bi bi-book category-emoji"></i>
-                                    <i th:case="2" class="bi bi-book category-emoji"></i>
-                                    <i th:case="3" class="bi bi-book category-emoji"></i>
-                                    <i th:case="4" class="bi bi-book category-emoji"></i>
+                                    <i th:case="0" class="bi bi-globe"></i>
+                                    <i th:case="1" class="bi bi-cpu"></i>
+                                    <i th:case="2" class="bi bi-film"></i>
+                                    <i th:case="3" class="bi bi-music-note-beamed"></i>
+                                    <i th:case="4" class="bi bi-controller"></i>
+                                    <i th:case="5" class="bi bi-lightbulb"></i>
                                 </span>
                             </div>
                             <h3 th:text="${categoria.nombre}"></h3>
-                            <p class="mb-2" th:text="${categoria.descripcion} ?: 'Demuestra lo que sabes sobre este tema'"></p>
-                            <div class="category-action">
-                                <span class="btn btn-sm btn-outline-primary">Jugar ahora <i class="bi bi-arrow-right"></i></span>
+                            <p class="mb-3" th:text="${categoria.descripcion} ?: 'Demuestra lo que sabes sobre este tema'"></p>
+                            <div class="category-action text-center">
+                                <span class="btn">
+                                    Jugar ahora <i class="bi bi-arrow-right"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -264,6 +420,34 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Efecto ripple al hacer clic -->
+<script>
+    document.querySelectorAll('.category-form button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Crear efecto ripple
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+
+            // Posición del ripple
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size/2;
+            const y = e.clientY - rect.top - size/2;
+
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+
+            this.appendChild(ripple);
+
+            // Eliminar el elemento después de la animación
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+</script>
 
 <!-- Incluir el footer -->
 <div th:insert="fragments/footer :: footer"></div>

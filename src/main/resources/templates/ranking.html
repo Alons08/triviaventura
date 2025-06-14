@@ -6,25 +6,55 @@
     <title>Ranking | Triviaventura</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --hover-color: #5a67d8;
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+            --gold-color: #fdcb6e;
+            --silver-color: #dfe6e9;
+            --bronze-color: #e17055;
+            --hover-color: #5649d8;
         }
 
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-color);
         }
 
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        /* Navbar personalizado */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+            box-shadow: 0 2px 10px rgba(108, 92, 231, 0.2);
+            padding: 0.75rem 1rem;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         .content-wrapper {
@@ -32,116 +62,244 @@
             padding-bottom: 20px;
         }
 
-        .ranking-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Player info styles */
+        .player-info-card {
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.1);
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            border: none;
         }
 
-        .table-hover tbody tr:hover {
-            background-color: rgba(102, 126, 234, 0.1);
-            transform: translateY(-1px);
-            transition: all 0.2s ease;
-        }
-
-        .badge-position {
-            width: 36px;
-            height: 36px;
+        .player-info-content {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 0.9rem;
         }
 
-        .gold {
-            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
-            color: #333;
+        .player-info-text {
+            font-size: 1rem;
+            font-weight: 500;
         }
 
-        .silver {
-            background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);
-            color: #333;
+        .player-info-text strong {
+            color: var(--primary-color);
         }
 
-        .bronze {
-            background: linear-gradient(135deg, #CD7F32 0%, #A67C52 100%);
-            color: white;
-        }
-
+        /* Card styles */
         .ranking-card {
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            margin-bottom: 2rem;
         }
 
         .ranking-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(108, 92, 231, 0.25);
         }
 
         .card-header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
             padding: 1.25rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .player-name {
-            font-weight: 500;
+        .card-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
         }
 
-        .btn-play {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            border: none;
-            padding: 0.5rem 2rem;
-            font-weight: 500;
-            color: #ffffff; /* Texto blanco */
+        .card-header h3 {
+            position: relative;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        /* Table styles */
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: middle;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(108, 92, 231, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.1);
+        }
+
+        /* Position badges */
+        .badge-position {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
+        .gold {
+            background: linear-gradient(135deg, var(--gold-color) 0%, #e1b12c 100%);
+            color: #7f5c00;
+        }
+
+        .silver {
+            background: linear-gradient(135deg, var(--silver-color) 0%, #b2bec3 100%);
+            color: #4b4b4b;
+        }
+
+        .bronze {
+            background: linear-gradient(135deg, var(--bronze-color) 0%, #d63031 100%);
+            color: white;
+        }
+
+        .standard {
+            background: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
+            color: var(--dark-color);
+        }
+
+        /* Player name styles */
+        .player-name {
+            font-weight: 500;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 10px;
+            font-size: 0.95rem;
+        }
+
+        .player-name::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Button styles */
+        .btn-play {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            color: white;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-size: 1rem;
+        }
+
         .btn-play:hover {
-            background: linear-gradient(135deg, var(--hover-color) 0%, #6a3093 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-            color: #ffffff; /* Mantener texto blanco */
+            background: linear-gradient(135deg, var(--hover-color) 0%, #8479f8 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+            color: white;
         }
 
-        .player-info-alert {
-            margin-bottom: 0 !important;
-            border-radius: 0;
+        .btn-play:active {
+            transform: translateY(0);
         }
 
-        /* Estilos para móviles */
+        /* Footer styles */
+        .app-footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 1.25rem 0;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        .app-footer a {
+            color: gold;
+            text-decoration: none;
+            text-shadow: 0 0 5px gold;
+            transition: all 0.3s ease;
+        }
+
+        .app-footer a:hover {
+            color: #ffd700;
+            text-shadow: 0 0 8px gold;
+        }
+
+        /* Responsive styles */
         @media (max-width: 768px) {
             .container {
-                padding-left: 0.5rem;
-                padding-right: 0.5rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
             }
 
-            .ranking-card {
-                border-radius: 8px;
+            .player-info-card {
+                padding: 1rem;
                 margin-bottom: 1rem;
             }
 
+            .player-info-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .ranking-card {
+                border-radius: 14px;
+                margin-bottom: 1.5rem;
+            }
+
             .card-header h3 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
 
-            .table-responsive {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            table {
-                font-size: 0.9rem;
+            .table {
+                font-size: 0.85rem;
             }
 
             .badge-position {
-                width: 30px;
-                height: 30px;
-                font-size: 0.8rem;
+                width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
+                border-radius: 8px;
             }
 
             .player-name {
@@ -149,23 +307,13 @@
             }
 
             .btn-play {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
+                padding: 0.65rem 1.5rem;
+                font-size: 0.95rem;
                 width: 100%;
-            }
-
-            .player-info-alert {
-                font-size: 0.9rem;
-                padding: 0.75rem;
             }
         }
 
-        /* Estilos para pantallas muy pequeñas */
         @media (max-width: 576px) {
-            .card-header h3 {
-                font-size: 1.2rem;
-            }
-
             .card-header {
                 padding: 1rem;
             }
@@ -174,8 +322,8 @@
                 padding: 0.5rem !important;
             }
 
-            table {
-                font-size: 0.85rem;
+            .table {
+                font-size: 0.8rem;
             }
 
             th, td {
@@ -183,10 +331,44 @@
             }
 
             .badge-position {
-                width: 26px;
-                height: 26px;
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .player-info-text {
+                font-size: 0.9rem;
+            }
+
+            .app-footer {
+                padding: 1rem 0;
+                font-size: 0.8rem;
             }
         }
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .player-info-card {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .ranking-card {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        tr {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        tr:nth-child(1) { animation-delay: 0.1s; }
+        tr:nth-child(2) { animation-delay: 0.2s; }
+        tr:nth-child(3) { animation-delay: 0.3s; }
+        tr:nth-child(4) { animation-delay: 0.4s; }
+        tr:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
 
@@ -194,53 +376,68 @@
 <div class="content-wrapper">
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <div class="container py-3 py-lg-5">
+    <div class="container py-3 py-lg-4">
+        <!-- Player Info Section -->
         <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card ranking-card mb-3">
-                    <div class="card-header text-center">
-                        <h3 class="mb-0"><i class="bi bi-trophy-fill me-2"></i>Ranking de Jugadores</h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
-                                <tr>
-                                    <th scope="col" class="ps-3 ps-sm-4">Posición</th>
-                                    <th scope="col">Jugador</th>
-                                    <th scope="col" class="text-end pe-3 pe-sm-4">Puntaje</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="usuario, iter : ${ranking}">
-                                    <td class="ps-3 ps-sm-4">
-                                            <span th:class="${iter.index == 0} ? 'badge-position gold' :
-                                                  (${iter.index == 1} ? 'badge-position silver' :
-                                                  (${iter.index == 2} ? 'badge-position bronze' : 'badge-position bg-light text-dark'))"
-                                                  th:text="${iter.index + 1}"></span>
-                                    </td>
-                                    <td>
-                                        <span class="player-name" th:text="${usuario[0]}"></span>
-                                    </td>
-                                    <td class="text-end pe-3 pe-sm-4 fw-bold" th:text="${usuario[1]}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
+            <div class="col-12 col-lg-10 col-xl-8">
+                <div class="player-info-card">
+                    <div class="player-info-content">
+                        <div class="player-info-text">
+                            <strong>Jugador:</strong> <span th:text="${#authentication.name}"></span>
+                        </div>
+                        <div class="player-info-text">
+                            <strong>Puntaje actual:</strong> <span th:text="${puntajeActual}"></span>
                         </div>
                     </div>
-                    <div class="card-footer bg-white text-center py-3">
-                        <a th:href="@{/jugar}" class="btn btn-play btn-lg">
+                </div>
+            </div>
+        </div>
+
+        <!-- Ranking Section -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <div class="card ranking-card">
+                    <div class="card-header text-center">
+                        <h3><i class="bi bi-trophy-fill me-2"></i>Ranking de Jugadores</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover align-middle mb-0 w-100">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="ps-3" style="width: 70px;">Posición</th>
+                                <th scope="col">Jugador</th>
+                                <th scope="col" class="text-end pe-3" style="width: 100px;">Puntaje</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="usuario, iter : ${ranking}">
+                                <td class="ps-3">
+                                    <div th:class="${iter.index == 0} ? 'badge-position gold' :
+                                              (${iter.index == 1} ? 'badge-position silver' :
+                                              (${iter.index == 2} ? 'badge-position bronze' : 'badge-position standard'))"
+                                         th:text="${iter.index + 1}"></div>
+                                </td>
+                                <td>
+                                    <span class="player-name" th:text="${usuario[0]}"></span>
+                                    <span th:if="${iter.index < 3}" class="ms-2">
+                                            <i th:if="${iter.index == 0}" class="bi bi-star-fill text-warning"></i>
+                                            <i th:if="${iter.index == 1}" class="bi bi-star-half text-secondary"></i>
+                                            <i th:if="${iter.index == 2}" class="bi bi-star text-danger"></i>
+                                        </span>
+                                </td>
+                                <td class="text-end pe-3 fw-bold" th:text="${usuario[1]}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-white text-center py-3 border-0">
+                        <a th:href="@{/jugar}" class="btn btn-play">
                             <i class="bi bi-joystick me-2"></i>Jugar Ahora
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="alert alert-info text-center player-info-alert">
-        <strong>Jugador:</strong> <span th:text="${#authentication.name}"></span><br>
-        <strong>Tu puntaje actual:</strong> <span th:text="${puntajeActual}"></span>
     </div>
 </div>
 
