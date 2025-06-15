@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -443,7 +444,7 @@
 </script>
 
 <!-- Incluir el footer -->
-<div th:insert="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>
