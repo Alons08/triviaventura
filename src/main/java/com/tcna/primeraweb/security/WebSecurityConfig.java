@@ -57,10 +57,10 @@ public class WebSecurityConfig {
                         //rutas públicas
                         .requestMatchers("/", "/login", "/registro", "/css/**", "/js/**", "/images/**").permitAll()
 
-                        //rutas de administración (CRUD Categorías y Preguntas)
+                        //rutas de administración (CRUD Categorías, Preguntas y Usuarios)
                         .requestMatchers("/categorias", "/categorias/**").hasAuthority("ADMIN")
                         .requestMatchers("/preguntas", "/preguntas/**").hasAuthority("ADMIN")
-                        .requestMatchers("/listausuarios").hasAuthority("ADMIN")
+                        .requestMatchers("/usuarios", "usuarios/**").hasAuthority("ADMIN")
 
                         //rutas de juego (trivia)
                         .requestMatchers("/jugar", "/jugar/**").hasAnyAuthority("USER", "ADMIN")

@@ -23,13 +23,14 @@
     }
   </style>
 </head>
+
 <body>
 <div class="error-container">
   <div class="card error-card text-center p-5">
     <div class="error-icon mb-4">🚫</div>
     <h1 class="mb-3">403 - Acceso Denegado</h1>
     <p class="lead mb-4">No tienes permiso para acceder a esta página.</p>
-    <a th:href="@{/}" class="btn btn-primary">Volver al Inicio</a>
+    <a th:href="@{/ranking}" class="btn btn-primary">Volver</a> <!--Dirigimos al ranking porque ya esta logeado-->
   </div>
 </div>
 
