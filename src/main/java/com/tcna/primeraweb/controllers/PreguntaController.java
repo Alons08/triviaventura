@@ -37,10 +37,10 @@ public class PreguntaController {
                                 Model model) {
         if(bindingResult.hasErrors()){
             model.addAttribute("categorias", categoriaService.listarTodos()); // ← Esto es importante
-            return "pregunta/formulario";
+            return "pregunta/formulario"; //si hay error seguimos en el archivo html
         }
         preguntaService.crear(pregunta);
-        return "redirect:/preguntas";
+        return "redirect:/preguntas"; //endpoint
     }
 
     @GetMapping("/editar/{id}")

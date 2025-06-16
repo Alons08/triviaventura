@@ -28,7 +28,7 @@ public class RegistroController {
     @GetMapping
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("user", new User());
-        return "registro";
+        return "registro"; //archivo html
     }
 
     @PostMapping
@@ -38,7 +38,7 @@ public class RegistroController {
             bindingResult.rejectValue("username", "error.user", "El nombre de usuario ya está en uso");
         }
         if (bindingResult.hasErrors()) {
-            return "registro";
+            return "registro"; //archivo html
         }
 
         // Asignar el rol USER por defecto
@@ -48,7 +48,7 @@ public class RegistroController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userRepository.save(user);
-        return "redirect:/login?registroExitoso";
+        return "redirect:/login?registroExitoso"; //endpoint
     }
 
 }

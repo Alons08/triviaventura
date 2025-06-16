@@ -24,7 +24,7 @@ public class JuegoController {
     @GetMapping
     public String seleccionarCategoria(Model model) {
         model.addAttribute("categorias", categoriaService.listarTodos());
-        return "seleccionar-categoria";
+        return "seleccionar-categoria"; //archivo html
     }
 
     @PostMapping("/iniciar")
@@ -38,7 +38,6 @@ public class JuegoController {
                 model.addAttribute("error", "La categoría seleccionada no tiene suficientes preguntas (mínimo 7)");
                 return "redirect:/jugar";
             }
-
             // Crear un nuevo juego
             Juego juego = new Juego();
             juego.setUsuario(userDetails.getUser());
@@ -55,7 +54,6 @@ public class JuegoController {
                 detalle.setPregunta(pregunta);
                 detalleJuegoService.crear(detalle);
             }
-
             return "redirect:/jugar/pregunta?juegoId=" + juego.getId() + "&preguntaNum=1";
         } catch (Exception e) {
             model.addAttribute("error", "Error al iniciar el juego: " + e.getMessage());

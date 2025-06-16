@@ -29,7 +29,7 @@ public class RankingController {
             model.addAttribute("puntajeActual", 0);
         }
 
-        return "ranking";
+        return "ranking"; //archivo html
     }
 
 }

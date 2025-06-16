@@ -33,16 +33,16 @@ public class CategoriaController {
                                    BindingResult bindingResult,
                                    Model model) {
         if (bindingResult.hasErrors()) {
-            return "categoria/formulario";
+            return "categoria/formulario"; //si hay error seguimos en el archivo html
         }
         service.crear(categoria);
-        return "redirect:/categorias";
+        return "redirect:/categorias"; //endpoint
     }
 
     @GetMapping("/editar/{id}")
     public String mostrarFormularioDeEditarCategoria(@PathVariable Long id, Model model) {
         model.addAttribute("categoria", service.obtenerPorId(id));
-        return "categoria/formulario";
+        return "categoria/formulario"; //archivo html
     }
 
     @GetMapping("/eliminar/{id}")
