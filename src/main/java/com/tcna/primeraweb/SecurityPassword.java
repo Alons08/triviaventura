@@ -5,6 +5,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityPassword {
     public static void main(String[] args) {
 
+        //MANUALMENTEEEEEEEE
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String rawPassword = "password";
         String encoderPassword = encoder.encode(rawPassword);
