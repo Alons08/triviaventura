@@ -31,7 +31,7 @@ public class Categoria {
     @Size(min = 10, max = 100, message = "debe tener entre 10 y 50 caracteres")
     private String descripcion;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //estaba EAGER
     private List<Pregunta> preguntas = new ArrayList<>();
 
     // Constructor adicional
