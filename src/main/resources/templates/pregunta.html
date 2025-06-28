@@ -266,10 +266,14 @@
 
             hiddenInput.value = respuesta;
 
-            // Pequeño retraso para permitir que se complete el feedback visual
+            // Envío inmediato sin retraso
+            form.submit();
+
+            /*
             setTimeout(() => {
                 form.submit();
             }, 500);
+            */
         }
     });
 </script>
