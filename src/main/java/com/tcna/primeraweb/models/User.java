@@ -32,7 +32,7 @@ public class User {
 
     //HashSet porque puede tener un conjunto de roles (varios roles)
     //Set porque no pueden haber elementos repetidos, o sea los roles son únicos
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),

@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/base.css}" rel="stylesheet">
     <style>
         :root {
             --primary-color: #6c5ce7;
@@ -375,7 +376,9 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container py-4 py-lg-5">
+<div class="main-wrapper">
+    <div class="content">
+        <div class="container py-4 py-lg-5">
     <div class="page-header">
         <h1><i class="bi bi-bookmark-star me-2"></i>Elige una categoría</h1>
         <p class="px-3">Selecciona el tema sobre el que quieres demostrar tus conocimientos y comienza el desafío.</p>
@@ -389,7 +392,13 @@
                     <div class="card category-card w-100 h-100">
                         <div class="card-body">
                             <div class="category-icon">
-                                <span th:switch="${iter.index % 6}">
+                                <!-- Mostrar imagen de la categoría si existe, sino usar iconos por defecto -->
+                                <span th:if="${categoria.imagenUrl != null}">
+                                    <img th:src="${categoria.imagenUrl}" 
+                                         alt="Imagen de categoría"
+                                         style="width: 4rem; height: 4rem; object-fit: cover; border-radius: 50%;">
+                                </span>
+                                <span th:if="${categoria.imagenUrl == null}" th:switch="${iter.index % 6}">
                                     <i th:case="0" class="bi bi-globe"></i>
                                     <i th:case="1" class="bi bi-cpu"></i>
                                     <i th:case="2" class="bi bi-film"></i>
@@ -409,6 +418,8 @@
                     </div>
                 </button>
             </form>
+        </div>
+    </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,26 @@
+/* CSS base para sticky footer en todas las vistas */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Wrapper principal para sticky footer */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+/* Asegurar que el footer siempre esté al final */
+footer {
+    margin-top: auto;
+}

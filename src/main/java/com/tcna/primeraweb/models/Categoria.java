@@ -31,6 +31,8 @@ public class Categoria {
     @Size(min = 10, max = 100, message = "debe tener entre 10 y 50 caracteres")
     private String descripcion;
 
+    private String imagenUrl; // URL de la imagen en Azure Blob Storage
+
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //estaba EAGER
     private List<Pregunta> preguntas = new ArrayList<>();
 
