@@ -149,7 +149,16 @@
             animation: fadeIn 0.6s ease-out;
         }
 
-        /* Responsive */
+        /* Eliminación de línea morada en móvil */
+        .main-wrapper {
+            background: transparent !important;
+        }
+        
+        .content {
+            background: transparent !important;
+        }
+
+        /* Mejora de experiencia móvil - desplazamiento de tarjeta al enfocar campos */
         @media (max-width: 768px) {
             .game-title {
                 font-size: 2rem;
@@ -161,6 +170,27 @@
 
             .card-body {
                 padding: 1.5rem;
+            }
+
+            /* Ajuste automático cuando aparece el teclado virtual */
+            .container {
+                transition: transform 0.3s ease;
+            }
+            
+            .form-control:focus {
+                transform: translateY(-10px);
+                transition: transform 0.3s ease;
+            }
+            
+            /* Cuando el username tiene foco, desplazar la tarjeta hacia arriba */
+            #username:focus {
+                animation: slideUp 0.3s ease-out forwards;
+            }
+            
+            /* Cuando cualquier input tiene foco, ajustar la vista */
+            .form-floating:focus-within {
+                transform: translateY(-5px);
+                transition: transform 0.3s ease;
             }
         }
 
@@ -181,12 +211,38 @@
                 padding: 0.65rem;
                 font-size: 1rem;
             }
+            
+            /* Mayor desplazamiento en pantallas muy pequeñas */
+            .form-control:focus {
+                transform: translateY(-15px);
+            }
+            
+            .container {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+            
+            /* Ajuste específico para el campo username en móvil */
+            #username:focus {
+                animation: slideUpMobile 0.3s ease-out forwards;
+            }
+        }
+
+        /* Animaciones para el desplazamiento móvil */
+        @keyframes slideUp {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideUpMobile {
+            from { transform: translateY(0); }
+            to { transform: translateY(-30px); }
         }
     </style>
 </head>
 <body class="gradient-custom">
-<div class="main-wrapper">
-    <div class="content">
+<div class="main-wrapper" style="background: transparent !important;">
+    <div class="content" style="background: transparent !important;">
         <div class="container d-flex align-items-center justify-content-center min-vh-100">
     <div class="row w-100 justify-content-center">
         <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
@@ -245,7 +301,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
+        const usernameField = document.querySelector('#username');
+        const authCard = document.querySelector('.auth-card');
 
+        // Toggle password visibility
         togglePassword.addEventListener('click', function() {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
@@ -253,6 +312,50 @@
             const icon = this.querySelector('i');
             icon.classList.toggle('bi-eye');
             icon.classList.toggle('bi-eye-slash');
+        });
+
+        // Mejora de experiencia móvil - manejo del teclado virtual
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        // Cuando se enfoca un campo, ajustar la vista en móvil
+        function handleFocus(element) {
+            if (isMobile()) {
+                setTimeout(() => {
+                    element.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 300);
+            }
+        }
+
+        // Aplicar el manejo a los campos de entrada
+        [usernameField, password].forEach(field => {
+            if (field) {
+                field.addEventListener('focus', () => handleFocus(field));
+            }
+        });
+
+        // Detectar cambios en el viewport (aparición del teclado virtual)
+        let viewportHeight = window.innerHeight;
+        
+        window.addEventListener('resize', function() {
+            const newHeight = window.innerHeight;
+            
+            if (isMobile() && newHeight < viewportHeight * 0.75) {
+                // Teclado virtual apareció
+                if (authCard) {
+                    authCard.style.transform = 'translateY(-50px)';
+                    authCard.style.transition = 'transform 0.3s ease';
+                }
+            } else {
+                // Teclado virtual desapareció
+                if (authCard) {
+                    authCard.style.transform = 'translateY(0)';
+                }
+            }
         });
     });
 </script>

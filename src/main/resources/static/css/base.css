@@ -1,6 +1,9 @@
 /* CSS base para sticky footer en todas las vistas */
 html, body {
     height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 body {
@@ -14,13 +17,29 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    background: transparent !important;
 }
 
 .content {
     flex: 1;
+    background: transparent !important;
 }
 
 /* Asegurar que el footer siempre esté al final */
 footer {
     margin-top: auto;
+    border: none !important;
+    outline: none !important;
+}
+
+/* Eliminación de bordes y líneas no deseadas en móvil */
+* {
+    box-sizing: border-box;
+}
+
+.gradient-custom .main-wrapper,
+.gradient-custom .content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
