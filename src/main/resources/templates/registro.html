@@ -185,6 +185,13 @@
             .container {
                 transition: transform 0.3s ease;
             }
+            
+            /* Centrado perfecto en móvil - mismo espacio arriba y abajo */
+            .container.d-flex.align-items-center.justify-content-center.min-vh-100 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+                min-height: calc(100vh - 4rem) !important;
+            }
         }
 
         @media (max-width: 576px) {
@@ -205,9 +212,11 @@
                 font-size: 1rem;
             }
             
-            .container {
-                padding-top: 1rem;
-                padding-bottom: 1rem;
+            /* Ajuste más preciso para móviles pequeños */
+            .container.d-flex.align-items-center.justify-content-center.min-vh-100 {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+                min-height: calc(100vh - 3rem) !important;
             }
         }
     </style>
