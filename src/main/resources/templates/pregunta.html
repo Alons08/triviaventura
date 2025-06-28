@@ -24,6 +24,28 @@
         .timer {
             font-weight: bold;
             color: #6c5ce7;
+            transition: color 0.5s ease;
+            font-size: 1.1rem;
+        }
+
+        .timer.warning {
+            color: #ffc107;
+            animation: pulse-warning 1s ease-in-out infinite alternate;
+        }
+
+        .timer.danger {
+            color: #dc3545;
+            animation: pulse-danger 0.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-warning {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        @keyframes pulse-danger {
+            from { transform: scale(1); color: #dc3545; }
+            to { transform: scale(1.1); color: #ff1744; }
         }
 
         .content-wrapper {
@@ -39,6 +61,17 @@
             font-size: 1rem;
             margin-bottom: 0.75rem;
             border-radius: 8px !important;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background-color: #6c5ce7 !important;
+            border-color: #6c5ce7 !important;
+            color: white !important;
+        }
+
+        .option-btn:focus {
+            box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25) !important;
         }
 
         .option-btn.selected-correct {
@@ -176,7 +209,7 @@
 
                 <!-- Tarjeta de pregunta -->
                 <div class="card mb-3 mb-md-4">
-                    <div class="card-header bg-primary text-white py-2 py-md-3">
+                    <div class="card-header text-white py-2 py-md-3" style="background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);">
                         <h5 class="mb-0" th:text="${pregunta.categoria.nombre}"></h5>
                     </div>
                     <div class="card-body py-3">
@@ -189,13 +222,13 @@
                             <input type="hidden" id="respuestaHidden" name="respuestaUsuario" value="">
 
                             <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-outline-primary option-btn" data-respuesta="A">
+                                <button type="button" class="btn btn-outline-secondary option-btn" data-respuesta="A" style="border-color: #6c5ce7; color: #6c5ce7;">
                                     <strong>A)</strong> <span th:text="${pregunta.opcionA}"></span>
                                 </button>
-                                <button type="button" class="btn btn-outline-primary option-btn" data-respuesta="B">
+                                <button type="button" class="btn btn-outline-secondary option-btn" data-respuesta="B" style="border-color: #6c5ce7; color: #6c5ce7;">
                                     <strong>B)</strong> <span th:text="${pregunta.opcionB}"></span>
                                 </button>
-                                <button type="button" class="btn btn-outline-primary option-btn" data-respuesta="C">
+                                <button type="button" class="btn btn-outline-secondary option-btn" data-respuesta="C" style="border-color: #6c5ce7; color: #6c5ce7;">
                                     <strong>C)</strong> <span th:text="${pregunta.opcionC}"></span>
                                 </button>
                             </div>
@@ -225,6 +258,15 @@
         function updateTimer() {
             timeLeft--;
             timerElement.textContent = `⏱️ ${timeLeft}s`;
+
+            // Cambiar color del cronómetro según el tiempo restante
+            if (timeLeft <= 10) {
+                timerElement.className = 'timer danger';
+            } else if (timeLeft <= 20) {
+                timerElement.className = 'timer warning';
+            } else {
+                timerElement.className = 'timer';
+            }
 
             if(timeLeft <= 0 && !respuestaEnviada) {
                 clearInterval(timerInterval);
