@@ -20,19 +20,20 @@ body {
 
 /* Wrapper principal para sticky footer - Compatible con todas las vistas */
 .main-wrapper {
-    flex: 1;
+    flex: 1 0 auto; /* Permite crecer pero no encogerse */
     display: flex;
     flex-direction: column;
     background: transparent !important;
-    min-height: calc(100vh - 80px); /* Reserva espacio para el footer */
+    min-height: calc(100vh - 80px); /* Reserva espacio mínimo para el footer */
     width: 100%;
 }
 
 .content {
-    flex: 1;
+    flex: 1 0 auto; /* Permite crecer automáticamente con el contenido */
     background: transparent !important;
     padding-bottom: 2rem; /* Espacio adicional antes del footer */
     width: 100%;
+    min-height: auto; /* Permite que el contenido crezca según sea necesario */
 }
 
 /* Asegurar que el footer siempre esté al final y sea completamente visible */
@@ -40,7 +41,7 @@ footer {
     margin-top: auto;
     border: none !important;
     outline: none !important;
-    flex-shrink: 0;
+    flex-shrink: 0; /* No se encoge nunca */
     width: 100%;
     min-height: 80px;
     z-index: 10;
@@ -48,6 +49,8 @@ footer {
     /* Asegurar que el footer sea completamente visible */
     display: block !important;
     overflow: visible !important;
+    /* Forzar que el footer siempre vaya al final del contenido */
+    clear: both;
 }
 
 /* Eliminación de bordes y líneas no deseadas en móvil */
@@ -83,12 +86,14 @@ body .content {
     }
     
     .main-wrapper {
-        min-height: calc(100vh - 80px); /* Usar la misma altura que en desktop */
+        min-height: auto; /* Permitir que crezca con el contenido en móvil */
+        flex: 1 0 auto;
     }
     
     .content {
         padding-bottom: 2rem; /* Reducir el padding inferior para que coincida con desktop */
         min-height: auto;
+        flex: 1 0 auto; /* Asegurar que el contenido pueda crecer */
     }
     
     footer {
@@ -117,17 +122,22 @@ body .content {
     }
     
     .main-wrapper {
-        min-height: calc(100vh - 80px);
+        min-height: auto; /* Permitir que crezca con el contenido */
+        flex: 1 0 auto;
     }
     
     .content {
         padding-bottom: 2rem;
+        flex: 1 0 auto;
     }
     
     footer {
         min-height: 80px;
         /* Mantener consistencia con el espacio superior */
         padding-bottom: 0 !important;
+        /* Asegurar posicionamiento al final */
+        margin-top: auto;
+        clear: both;
     }
     
     /* Eliminar espacios adicionales del contenedor del footer */
@@ -142,18 +152,21 @@ body .content {
 
 /* Reglas específicas para vistas con navbar - Como ranking, seleccionar-categoria, etc. */
 .navbar + .main-wrapper {
-    min-height: calc(100vh - 136px); /* Ajustar para navbar + footer */
+    min-height: calc(100vh - 136px); /* Ajustar para navbar + footer como mínimo */
+    flex: 1 0 auto; /* Permitir crecimiento automático */
 }
 
 @media (max-width: 768px) {
     .navbar + .main-wrapper {
-        min-height: calc(100vh - 136px); /* Mantener consistencia con desktop */
+        min-height: auto; /* Permitir crecimiento automático en móvil */
+        flex: 1 0 auto;
     }
 }
 
 @media (max-width: 576px) {
     .navbar + .main-wrapper {
-        min-height: calc(100vh - 136px); /* Mantener consistencia */
+        min-height: auto; /* Permitir crecimiento automático */
+        flex: 1 0 auto;
     }
 }
 
