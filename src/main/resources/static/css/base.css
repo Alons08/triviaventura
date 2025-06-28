@@ -1,35 +1,53 @@
 /* CSS base para sticky footer en todas las vistas */
-html, body {
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
     height: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-}
-
-body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* Asegurar que el contenido sea scrolleable completamente */
+    position: relative;
 }
 
-/* Wrapper principal para sticky footer */
+/* Wrapper principal para sticky footer - Compatible con todas las vistas */
 .main-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
     background: transparent !important;
+    min-height: calc(100vh - 80px); /* Reserva espacio para el footer */
+    width: 100%;
 }
 
 .content {
     flex: 1;
     background: transparent !important;
+    padding-bottom: 2rem; /* Espacio adicional antes del footer */
+    width: 100%;
 }
 
-/* Asegurar que el footer siempre esté al final */
+/* Asegurar que el footer siempre esté al final y sea completamente visible */
 footer {
     margin-top: auto;
     border: none !important;
     outline: none !important;
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 80px;
+    z-index: 10;
+    position: relative;
+    /* Asegurar que el footer sea completamente visible */
+    display: block !important;
+    overflow: visible !important;
 }
 
 /* Eliminación de bordes y líneas no deseadas en móvil */
@@ -37,9 +55,123 @@ footer {
     box-sizing: border-box;
 }
 
+/* Reglas universales para todas las vistas con gradientes */
 .gradient-custom .main-wrapper,
-.gradient-custom .content {
+.gradient-custom .content,
+body .main-wrapper,
+body .content {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
+}
+
+/* Ajustes específicos para móvil - Aplicables a todas las vistas */
+@media (max-width: 768px) {
+    /* Asegurar scroll completo en tablets */
+    html, body {
+        height: auto;
+        min-height: 100vh;
+        /* Padding bottom para asegurar espacio para el footer */
+        padding-bottom: 0;
+    }
+    
+    body {
+        /* Padding inferior para dispositivos con notch o barras de navegación */
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        /* Scroll padding para asegurar que el footer sea completamente visible */
+        scroll-padding-bottom: 3rem;
+    }
+    
+    .main-wrapper {
+        min-height: calc(100vh - 140px); /* Más espacio para el footer en móvil */
+    }
+    
+    .content {
+        padding-bottom: 5rem; /* Más espacio en móvil */
+        min-height: auto;
+    }
+    
+    footer {
+        min-height: 140px; /* Footer más alto en móvil para mejor legibilidad */
+        /* Asegurar que el footer sea completamente visible en el scroll */
+        position: relative;
+        margin-top: 0;
+        /* Forzar display del footer completo */
+        display: block !important;
+        width: 100% !important;
+        overflow: visible !important;
+        /* Espacio adicional inferior para asegurar visibilidad completa */
+        padding-bottom: 1.5rem !important;
+    }
+    
+    /* Asegurar que el último elemento sea completamente visible */
+    footer p:last-child {
+        margin-bottom: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        scroll-padding-bottom: 4rem;
+    }
+    
+    .main-wrapper {
+        min-height: calc(100vh - 160px);
+    }
+    
+    .content {
+        padding-bottom: 6rem;
+    }
+    
+    footer {
+        min-height: 160px;
+        /* Espacio adicional para pantallas muy pequeñas */
+        padding-bottom: 2rem !important;
+    }
+    
+    /* Asegurar que el contenido del footer sea completamente visible */
+    footer .container {
+        padding-bottom: 1.5rem !important;
+    }
+    
+    footer .container div {
+        padding-bottom: 1rem !important;
+    }
+}
+
+/* Reglas específicas para vistas con navbar - Como ranking, seleccionar-categoria, etc. */
+.navbar + .main-wrapper {
+    min-height: calc(100vh - 136px); /* Ajustar para navbar + footer */
+}
+
+@media (max-width: 768px) {
+    .navbar + .main-wrapper {
+        min-height: calc(100vh - 200px); /* Ajustar para navbar + footer en móvil */
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar + .main-wrapper {
+        min-height: calc(100vh - 220px); /* Ajustar para navbar + footer en móvil pequeño */
+    }
+}
+
+/* Reglas para vistas fullscreen como login y registro */
+.container.d-flex.align-items-center.justify-content-center.min-vh-100 {
+    min-height: calc(100vh - 80px) !important;
+}
+
+@media (max-width: 768px) {
+    .container.d-flex.align-items-center.justify-content-center.min-vh-100 {
+        min-height: calc(100vh - 140px) !important;
+        padding-bottom: 3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container.d-flex.align-items-center.justify-content-center.min-vh-100 {
+        min-height: calc(100vh - 160px) !important;
+        padding-bottom: 4rem;
+    }
 }

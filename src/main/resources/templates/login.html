@@ -158,7 +158,7 @@
             background: transparent !important;
         }
 
-        /* Mejora de experiencia móvil - desplazamiento de tarjeta al enfocar campos */
+        /* Mejora de experiencia móvil - solo ajuste de tarjeta, no de campos individuales */
         @media (max-width: 768px) {
             .game-title {
                 font-size: 2rem;
@@ -172,24 +172,8 @@
                 padding: 1.5rem;
             }
 
-            /* Ajuste automático cuando aparece el teclado virtual */
+            /* Solo transición suave para la tarjeta completa */
             .container {
-                transition: transform 0.3s ease;
-            }
-            
-            .form-control:focus {
-                transform: translateY(-10px);
-                transition: transform 0.3s ease;
-            }
-            
-            /* Cuando el username tiene foco, desplazar la tarjeta hacia arriba */
-            #username:focus {
-                animation: slideUp 0.3s ease-out forwards;
-            }
-            
-            /* Cuando cualquier input tiene foco, ajustar la vista */
-            .form-floating:focus-within {
-                transform: translateY(-5px);
                 transition: transform 0.3s ease;
             }
         }
@@ -212,31 +196,10 @@
                 font-size: 1rem;
             }
             
-            /* Mayor desplazamiento en pantallas muy pequeñas */
-            .form-control:focus {
-                transform: translateY(-15px);
-            }
-            
             .container {
                 padding-top: 1rem;
                 padding-bottom: 1rem;
             }
-            
-            /* Ajuste específico para el campo username en móvil */
-            #username:focus {
-                animation: slideUpMobile 0.3s ease-out forwards;
-            }
-        }
-
-        /* Animaciones para el desplazamiento móvil */
-        @keyframes slideUp {
-            from { transform: translateY(0); }
-            to { transform: translateY(-20px); }
-        }
-        
-        @keyframes slideUpMobile {
-            from { transform: translateY(0); }
-            to { transform: translateY(-30px); }
         }
     </style>
 </head>
@@ -301,7 +264,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
-        const usernameField = document.querySelector('#username');
         const authCard = document.querySelector('.auth-card');
 
         // Toggle password visibility
@@ -314,29 +276,10 @@
             icon.classList.toggle('bi-eye-slash');
         });
 
-        // Mejora de experiencia móvil - manejo del teclado virtual
+        // Mejora de experiencia móvil - solo manejo del teclado virtual
         function isMobile() {
             return window.innerWidth <= 768;
         }
-
-        // Cuando se enfoca un campo, ajustar la vista en móvil
-        function handleFocus(element) {
-            if (isMobile()) {
-                setTimeout(() => {
-                    element.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
-                }, 300);
-            }
-        }
-
-        // Aplicar el manejo a los campos de entrada
-        [usernameField, password].forEach(field => {
-            if (field) {
-                field.addEventListener('focus', () => handleFocus(field));
-            }
-        });
 
         // Detectar cambios en el viewport (aparición del teclado virtual)
         let viewportHeight = window.innerHeight;
@@ -345,7 +288,7 @@
             const newHeight = window.innerHeight;
             
             if (isMobile() && newHeight < viewportHeight * 0.75) {
-                // Teclado virtual apareció
+                // Teclado virtual apareció - solo mover la tarjeta completa
                 if (authCard) {
                     authCard.style.transform = 'translateY(-50px)';
                     authCard.style.transition = 'transform 0.3s ease';
