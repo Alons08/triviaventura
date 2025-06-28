@@ -83,16 +83,16 @@ body .content {
     }
     
     .main-wrapper {
-        min-height: calc(100vh - 140px); /* Más espacio para el footer en móvil */
+        min-height: calc(100vh - 80px); /* Usar la misma altura que en desktop */
     }
     
     .content {
-        padding-bottom: 5rem; /* Más espacio en móvil */
+        padding-bottom: 2rem; /* Reducir el padding inferior para que coincida con desktop */
         min-height: auto;
     }
     
     footer {
-        min-height: 140px; /* Footer más alto en móvil para mejor legibilidad */
+        min-height: 80px; /* Mantener la misma altura que en desktop */
         /* Asegurar que el footer sea completamente visible en el scroll */
         position: relative;
         margin-top: 0;
@@ -100,14 +100,14 @@ body .content {
         display: block !important;
         width: 100% !important;
         overflow: visible !important;
-        /* Espacio adicional inferior para asegurar visibilidad completa */
-        padding-bottom: 1.5rem !important;
+        /* Mantener el mismo padding que tiene superior (1.5rem) */
+        padding-bottom: 0 !important;
     }
     
-    /* Asegurar que el último elemento sea completamente visible */
+    /* Eliminar espacios adicionales en el último elemento */
     footer p:last-child {
-        margin-bottom: 1rem !important;
-        padding-bottom: 1rem !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0.5rem !important;
     }
 }
 
@@ -117,26 +117,26 @@ body .content {
     }
     
     .main-wrapper {
-        min-height: calc(100vh - 160px);
+        min-height: calc(100vh - 80px);
     }
     
     .content {
-        padding-bottom: 6rem;
+        padding-bottom: 2rem;
     }
     
     footer {
-        min-height: 160px;
-        /* Espacio adicional para pantallas muy pequeñas */
-        padding-bottom: 2rem !important;
+        min-height: 80px;
+        /* Mantener consistencia con el espacio superior */
+        padding-bottom: 0 !important;
     }
     
-    /* Asegurar que el contenido del footer sea completamente visible */
+    /* Eliminar espacios adicionales del contenedor del footer */
     footer .container {
-        padding-bottom: 1.5rem !important;
+        padding-bottom: 0 !important;
     }
     
     footer .container div {
-        padding-bottom: 1rem !important;
+        padding-bottom: 0 !important;
     }
 }
 
@@ -147,13 +147,13 @@ body .content {
 
 @media (max-width: 768px) {
     .navbar + .main-wrapper {
-        min-height: calc(100vh - 200px); /* Ajustar para navbar + footer en móvil */
+        min-height: calc(100vh - 136px); /* Mantener consistencia con desktop */
     }
 }
 
 @media (max-width: 576px) {
     .navbar + .main-wrapper {
-        min-height: calc(100vh - 220px); /* Ajustar para navbar + footer en móvil pequeño */
+        min-height: calc(100vh - 136px); /* Mantener consistencia */
     }
 }
 
@@ -164,14 +164,14 @@ body .content {
 
 @media (max-width: 768px) {
     .container.d-flex.align-items-center.justify-content-center.min-vh-100 {
-        min-height: calc(100vh - 140px) !important;
-        padding-bottom: 3rem;
+        min-height: calc(100vh - 80px) !important;
+        padding-bottom: 1rem;
     }
 }
 
 @media (max-width: 576px) {
     .container.d-flex.align-items-center.justify-content-center.min-vh-100 {
-        min-height: calc(100vh - 160px) !important;
-        padding-bottom: 4rem;
+        min-height: calc(100vh - 80px) !important;
+        padding-bottom: 1rem;
     }
 }
