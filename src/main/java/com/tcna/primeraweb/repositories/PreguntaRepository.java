@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface PreguntaRepository extends JpaRepository<Pregunta, Long> {
 
+    // El método findAll(Pageable) ya viene incluido en JpaRepository
+
     //INGLES
     //Aqui puedo poner más metodos a parte del CRUD [1]
     List<Pregunta> findByCategoriaId(Long categoriaId);

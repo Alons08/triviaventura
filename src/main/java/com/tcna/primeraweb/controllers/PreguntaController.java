@@ -5,6 +5,10 @@ import com.tcna.primeraweb.services.CategoriaService;
 import com.tcna.primeraweb.services.PreguntaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,8 +23,29 @@ public class PreguntaController {
     private final CategoriaService categoriaService;
 
     @GetMapping
-    public String listarPreguntas(Model model) {
-        model.addAttribute("preguntas", preguntaService.listarTodos());
+    public String listarPreguntas(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            Model model) {
+        
+        Sort sort = sortDir.equalsIgnoreCase("desc") ? 
+            Sort.by(sortBy).descending() : 
+            Sort.by(sortBy).ascending();
+            
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<Pregunta> preguntasPage = preguntaService.listarTodosPaginado(pageable);
+        
+        model.addAttribute("preguntasPage", preguntasPage);
+        model.addAttribute("preguntas", preguntasPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", preguntasPage.getTotalPages());
+        model.addAttribute("totalElements", preguntasPage.getTotalElements());
+        model.addAttribute("size", size);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("sortDir", sortDir);
+        
         return "pregunta/listado"; //archivo html
     }
 

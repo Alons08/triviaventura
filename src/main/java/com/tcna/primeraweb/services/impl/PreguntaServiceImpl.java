@@ -4,6 +4,8 @@ import com.tcna.primeraweb.models.Pregunta;
 import com.tcna.primeraweb.repositories.PreguntaRepository;
 import com.tcna.primeraweb.services.PreguntaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,11 @@ import java.util.Random;
 public class PreguntaServiceImpl implements PreguntaService {
 
     private final PreguntaRepository preguntaRepository;
+
+    @Override
+    public Page<Pregunta> listarTodosPaginado(Pageable pageable) {
+        return preguntaRepository.findAll(pageable);
+    }
 
     @Override
     public List<Pregunta> listarTodos() {
