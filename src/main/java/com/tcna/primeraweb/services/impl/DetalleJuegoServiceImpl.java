@@ -44,12 +44,6 @@ public class DetalleJuegoServiceImpl implements DetalleJuegoService {
         }
     }
 
-    //nuevoooo
-    @Override
-    public List<Long> obtenerPreguntasRespondidasPorJuego(Long juegoId) {
-        return detalleJuegoRepository.findPreguntasRespondidasPorJuego(juegoId);
-    }
-
     @Override
     public List<DetalleJuego> obtenerDetallesPorJuego(Long juegoId) {
         return detalleJuegoRepository.findByJuegoId(juegoId);
