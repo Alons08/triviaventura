@@ -15,9 +15,7 @@ public interface DetalleJuegoRepository extends JpaRepository<DetalleJuego, Long
     //INGLES
     //Aqui puedo poner más metodos a parte del CRUD [1]
 
-    @Query("SELECT d.pregunta.id FROM DetalleJuego d WHERE d.juego.id = :juegoId")
-    List<Long> findPreguntasRespondidasPorJuego(@Param("juegoId") Long juegoId);
-
+    @Query("SELECT d FROM DetalleJuego d WHERE d.juego.id = :juegoId ORDER BY d.id")
     List<DetalleJuego> findByJuegoId(Long juegoId);
 
     @Query("SELECT d FROM DetalleJuego d WHERE d.juego.id = :juegoId AND d.pregunta.id = :preguntaId")

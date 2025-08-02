@@ -17,12 +17,9 @@ public interface PreguntaRepository extends JpaRepository<Pregunta, Long> {
     //Aqui puedo poner más metodos a parte del CRUD [1]
     List<Pregunta> findByCategoriaId(Long categoriaId);
 
-    @Query(value = "SELECT p FROM Pregunta p WHERE p.categoria.id = :categoriaId AND p.id NOT IN :preguntasRespondidas ORDER BY RANDOM()")
+    @Query(value = "SELECT * FROM preguntas WHERE id_categoria = :categoriaId AND (:#{#preguntasRespondidas.size()} = 0 OR id NOT IN (:preguntasRespondidas)) ORDER BY RANDOM()", nativeQuery = true)
     List<Pregunta> findPreguntaAleatoriaPorCategoriaExcluyendo(@Param("categoriaId") Long categoriaId, @Param("preguntasRespondidas") List<Long> preguntasRespondidas);
 
     int countByCategoriaId(Long categoriaId);
-
-    @Query(value = "SELECT * FROM preguntas WHERE id_categoria = :categoriaId ORDER BY RANDOM() LIMIT :cantidad", nativeQuery = true)
-    List<Pregunta> findRandomByCategoria(@Param("categoriaId") Long categoriaId, @Param("cantidad") int cantidad);
 
 }

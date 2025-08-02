@@ -35,9 +35,9 @@ public class DataInitializer {
 
 
             // Crear usuario ADMIN por defecto si no existe
-            if (!userRepository.existsByUsername("alonso")) { //"admin"
+            if (!userRepository.existsByUsername("Alonso")) { //"admin"
                 User admin = new User();
-                admin.setUsername("alonso"); //"admin"
+                admin.setUsername("Alonso"); //"admin"
                 admin.setPassword(encoder.encode("alonsodev08"));
                 admin.setEnabled(true);
                 admin.setRoles(Collections.singleton(adminRole)); // asignar rol ADMIN

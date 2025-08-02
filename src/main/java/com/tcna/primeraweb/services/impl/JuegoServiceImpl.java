@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,28 +50,6 @@ public class JuegoServiceImpl implements JuegoService {
         }
     }
 
-    //nuevooo
-    @Override
-    public List<Juego> obtenerTop10Juegos() {
-        return juegoRepository.findAll().stream()
-                .collect(Collectors.groupingBy(juego -> juego.getUsuario().getUsername(),
-                        Collectors.maxBy(Comparator.comparingInt(Juego::getPuntaje))))
-                .values().stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .sorted(Comparator.comparingInt(Juego::getPuntaje).reversed())
-                .limit(10)
-                .toList();
-    }
-
-    @Override
-    public List<Juego> obtenerUltimosJuegosPorUsuario() {
-        return juegoRepository.findUltimosJuegosPorUsuario().stream()
-                .sorted(Comparator.comparingInt(Juego::getPuntaje).reversed())
-                .limit(10)
-                .toList();
-    }
-
     @Override
     public void actualizarPuntajePorCategoria(Long usuarioId, Long categoriaId, int nuevoPuntaje) {
         List<Juego> juegos = juegoRepository.findUltimosJuegosPorUsuarioYCategoria(usuarioId, categoriaId);
@@ -91,11 +68,6 @@ public class JuegoServiceImpl implements JuegoService {
             nuevoJuego.setFechaInicio(LocalDateTime.now());
             juegoRepository.save(nuevoJuego);
         }
-    }
-
-    @Override
-    public List<Object[]> obtenerRankingUsuariosPorPuntajeTotal() {
-        return juegoRepository.findRankingUsuariosPorPuntajeTotal();
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.tcna.primeraweb.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class JuegoController {
     }
 
     @PostMapping("/iniciar")
+    @Transactional
     public String iniciarJuego(@RequestParam Long categoriaId,
                                @AuthenticationPrincipal MyUserDetails userDetails,
                                Model model) {
@@ -47,6 +49,13 @@ public class JuegoController {
 
             // Obtener 7 preguntas aleatorias para este juego
             List<Pregunta> preguntasJuego = preguntaService.obtenerPreguntasAleatoriasPorCategoria(categoriaId, 7);
+            
+            // Verificar que se obtuvieron exactamente 7 preguntas únicas
+            if (preguntasJuego.size() != 7) {
+                model.addAttribute("error", "Error: no se pudieron obtener 7 preguntas únicas");
+                return "redirect:/jugar";
+            }
+            
             // Crear los detalles de juego con las preguntas seleccionadas
             for (Pregunta pregunta : preguntasJuego) {
                 DetalleJuego detalle = new DetalleJuego();
@@ -82,6 +91,7 @@ public class JuegoController {
 
             DetalleJuego detalleActual = detalles.get(preguntaNum - 1);
             Pregunta pregunta = detalleActual.getPregunta();
+            
             model.addAttribute("juego", juego);
             model.addAttribute("pregunta", pregunta);
             model.addAttribute("juegoId", juegoId);

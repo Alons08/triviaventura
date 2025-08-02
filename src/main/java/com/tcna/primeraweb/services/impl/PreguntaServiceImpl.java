@@ -65,11 +65,23 @@ public class PreguntaServiceImpl implements PreguntaService {
 
     @Override
     public Pregunta obtenerPreguntaAleatoriaPorCategoriaExcluyendo(Long categoriaId, List<Long> preguntasRespondidas) {
+        // Asegurar que la lista no sea null
+        if (preguntasRespondidas == null) {
+            preguntasRespondidas = new java.util.ArrayList<>();
+        }
+        
         List<Pregunta> preguntas = preguntaRepository.findPreguntaAleatoriaPorCategoriaExcluyendo(categoriaId, preguntasRespondidas);
+        
         if (preguntas.isEmpty()) {
             return null; // No hay preguntas disponibles
         }
-        return preguntas.get(0); // Devuelve la primera pregunta aleatoria
+        
+        // Mezclar la lista para mayor aleatoriedad si hay múltiples resultados
+        if (preguntas.size() > 1) {
+            java.util.Collections.shuffle(preguntas);
+        }
+        
+        return preguntas.get(0); // Devuelve la primera pregunta después de mezclar
     }
 
     @Override
@@ -79,7 +91,34 @@ public class PreguntaServiceImpl implements PreguntaService {
 
     @Override
     public List<Pregunta> obtenerPreguntasAleatoriasPorCategoria(Long categoriaId, int cantidad) {
-        return preguntaRepository.findRandomByCategoria(categoriaId, cantidad);
+        // Obtener TODAS las preguntas de la categoría
+        List<Pregunta> todasLasPreguntas = preguntaRepository.findByCategoriaId(categoriaId);
+        
+        if (todasLasPreguntas.size() < cantidad) {
+            return new java.util.ArrayList<>();
+        }
+        
+        // Crear lista de índices únicos
+        java.util.List<Integer> indices = new java.util.ArrayList<>();
+        for (int i = 0; i < todasLasPreguntas.size(); i++) {
+            indices.add(i);
+        }
+        
+        // Mezclar los índices usando Java Collections
+        java.util.Collections.shuffle(indices, new java.util.Random(System.currentTimeMillis()));
+        
+        // Seleccionar las primeras 'cantidad' preguntas usando los índices mezclados
+        List<Pregunta> resultado = new java.util.ArrayList<>();
+        java.util.Set<Long> idsVerificacion = new java.util.HashSet<>();
+        
+        for (int i = 0; i < cantidad && i < indices.size(); i++) {
+            Pregunta pregunta = todasLasPreguntas.get(indices.get(i));
+            if (idsVerificacion.add(pregunta.getId())) {
+                resultado.add(pregunta);
+            }
+        }
+        
+        return resultado;
     }
 
 }
