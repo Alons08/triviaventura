@@ -38,7 +38,7 @@ public class DataInitializer {
             if (!userRepository.existsByUsername("Alonso")) { //"admin"
                 User admin = new User();
                 admin.setUsername("Alonso"); //"admin"
-                admin.setPassword(encoder.encode("alonsodev08"));
+                admin.setPassword(encoder.encode("password"));
                 admin.setEnabled(true);
                 admin.setRoles(Collections.singleton(adminRole)); // asignar rol ADMIN
                 userRepository.save(admin);
