@@ -180,20 +180,28 @@
                             <label for="nombre" class="form-label fw-semibold">Nombre</label>
                             <input type="text" class="form-control" id="nombre" th:field="*{nombre}"
                                    th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid' : ''"
-                                   placeholder="Ingrese el nombre de la categoría">
+                                   placeholder="Ingrese el nombre de la categoría"
+                                   required
+                                   minlength="3"
+                                   maxlength="50">
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}">
                                 <span th:text="${#fields.errors('nombre').get(0)}"></span>
                             </div>
+                            <div class="form-text">Entre 3 y 50 caracteres</div>
                         </div>
 
                         <div class="mb-4">
                             <label for="descripcion" class="form-label fw-semibold">Descripción</label>
                             <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="4"
                                       th:classappend="${#fields.hasErrors('descripcion')} ? 'is-invalid' : ''"
-                                      placeholder="Ingrese una descripción para la categoría"></textarea>
+                                      placeholder="Ingrese una descripción para la categoría"
+                                      required
+                                      minlength="10"
+                                      maxlength="100"></textarea>
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}">
                                 <span th:text="${#fields.errors('descripcion').get(0)}"></span>
                             </div>
+                            <div class="form-text">Entre 10 y 100 caracteres</div>
                         </div>
 
                         <div class="mb-4">

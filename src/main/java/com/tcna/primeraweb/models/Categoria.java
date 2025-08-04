@@ -28,7 +28,7 @@ public class Categoria {
     private String nombre;
 
     @NotBlank(message = "no debe estar vacía")
-    @Size(min = 10, max = 100, message = "debe tener entre 10 y 50 caracteres")
+    @Size(min = 10, max = 100, message = "debe tener entre 10 y 100 caracteres")
     private String descripcion;
 
     private String imagenUrl; // URL de la imagen en Azure Blob Storage

@@ -224,10 +224,14 @@
                             <label for="textoPregunta" class="form-label fw-semibold">Pregunta</label>
                             <textarea class="form-control" id="textoPregunta" th:field="*{textoPregunta}" rows="4"
                                       th:classappend="${#fields.hasErrors('textoPregunta')} ? 'is-invalid' : ''"
-                                      placeholder="Ingrese el texto de la pregunta"></textarea>
+                                      placeholder="Ingrese el texto de la pregunta"
+                                      required
+                                      minlength="8"
+                                      maxlength="150"></textarea>
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('textoPregunta')}">
                                 <span th:text="${#fields.errors('textoPregunta').get(0)}"></span>
                             </div>
+                            <div class="form-text">Entre 8 y 150 caracteres</div>
                         </div>
 
                         <!-- Opciones -->
