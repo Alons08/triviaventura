@@ -409,25 +409,16 @@
             <div class="col-md-6">
                 <div class="pagination-info">
                     <div class="d-flex align-items-center mb-2">
-                        <i class="bi bi-info-circle text-primary me-2"></i>
-                        <span class="fw-semibold text-dark">Información de página</span>
-                    </div>
-                    <p class="text-muted mb-2">
-                        Mostrando 
-                        <strong class="text-primary" th:text="${(currentPage * size) + 1}">1</strong> 
-                        a 
-                        <strong class="text-primary" th:text="${(currentPage + 1) * size > totalElements ? totalElements : (currentPage + 1) * size}">5</strong> 
-                        de 
-                        <strong class="text-primary" th:text="${totalElements}">10</strong> 
-                        preguntas
-                    </p>
-                    <!-- Debug info mejorado -->
-                    <div class="pagination-debug">
-                        <small class="text-muted">
-                            <i class="bi bi-gear me-1"></i>
-                            Página <strong th:text="${currentPage + 1}">1</strong> de <strong th:text="${totalPages}">2</strong> 
-                            | Tamaño: <strong th:text="${size}">5</strong> elementos
-                        </small>
+                        <div class="me-4">
+                            <i class="bi bi-files text-primary me-1"></i>
+                            <strong class="text-primary">Total de filas:</strong> 
+                            <span th:text="${totalElements}">CARGANDO...</span>
+                        </div>
+                        <div>
+                            <i class="bi bi-bookmark text-primary me-1"></i>
+                            <strong class="text-primary">Página</strong> 
+                            <span th:text="${currentPage + 1}">?</span> de <span th:text="${totalPages}">?</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -527,12 +518,11 @@
                                 <input type="hidden" name="sortDir" th:value="${sortDir}">
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-grid-3x3-gap text-primary me-2"></i>
-                                    <label for="pageSize" class="form-label me-3 mb-0">Elementos por página:</label>
                                     <select name="size" id="pageSize" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">
-                                        <option value="10" th:selected="${size == 10}">10</option>
-                                        <option value="25" th:selected="${size == 25}">25</option>
-                                        <option value="50" th:selected="${size == 50}">50</option>
-                                        <option value="100" th:selected="${size == 100}">100</option>
+                                        <option value="10" th:selected="${size == 10}">10 filas</option>
+                                        <option value="25" th:selected="${size == 25}">25 filas</option>
+                                        <option value="50" th:selected="${size == 50}">50 filas</option>
+                                        <option value="100" th:selected="${size == 100}">100 filas</option>
                                     </select>
                                 </div>
                             </form>
