@@ -26,10 +26,17 @@ public class DataInitializer {
                 return roleRepository.save(newRole);
             });
 
-            // Crear el rol USER si no existe
-            Role userRole = roleRepository.findByNombre("USER").orElseGet(() -> {
+            // Crear el rol JUGADOR si no existe
+            Role jugadorRole = roleRepository.findByNombre("JUGADOR").orElseGet(() -> {
                 Role newRole = new Role();
-                newRole.setNombre("USER");
+                newRole.setNombre("JUGADOR");
+                return roleRepository.save(newRole);
+            });
+
+            // Crear el rol COLABORADOR si no existe
+            Role colaboradorRole = roleRepository.findByNombre("COLABORADOR").orElseGet(() -> {
+                Role newRole = new Role();
+                newRole.setNombre("COLABORADOR");
                 return roleRepository.save(newRole);
             });
 
@@ -42,10 +49,7 @@ public class DataInitializer {
                 admin.setEnabled(true);
                 admin.setRoles(Collections.singleton(adminRole)); // asignar rol ADMIN
                 userRepository.save(admin);
-            }     /* System.out.println("SI se ha creado un usuario ADMIN");
-            } else {
-                System.out.println("NO se ha creado un usuario ADMIN porque ya existe");
-            }*/
+            }    
         };
     }
 

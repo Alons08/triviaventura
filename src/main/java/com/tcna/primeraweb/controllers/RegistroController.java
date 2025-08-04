@@ -49,10 +49,10 @@ public class RegistroController {
             return "registro"; //archivo html
         }
 
-        // Asignar el rol USER por defecto
-        Role userRole = roleRepository.findByNombre("USER")
-                .orElseThrow(() -> new RuntimeException("Rol USER no encontrado"));
-        user.setRoles(Collections.singleton(userRole));
+        // Asignar el rol JUGADOR por defecto
+        Role jugadorRole = roleRepository.findByNombre("JUGADOR")
+                .orElseThrow(() -> new RuntimeException("Rol JUGADOR no encontrado"));
+        user.setRoles(Collections.singleton(jugadorRole));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         User savedUser = userRepository.save(user);

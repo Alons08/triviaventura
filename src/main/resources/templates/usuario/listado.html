@@ -208,7 +208,7 @@
           <td data-label="Roles">
             <span th:each="rol : ${usuario.roles}" th:text="${rol.nombre}"
                   class="badge me-1"
-                  th:classappend="${rol.nombre == 'ADMIN'} ? 'bg-danger' : 'bg-primary'"></span>
+                  th:classappend="${rol.nombre == 'ADMIN'} ? 'bg-danger' : (${rol.nombre == 'COLABORADOR'} ? 'bg-warning' : 'bg-primary')"></span>
           </td>
           <td data-label="Estado">
             <span th:if="${usuario.enabled}" class="badge bg-success">Activo</span>

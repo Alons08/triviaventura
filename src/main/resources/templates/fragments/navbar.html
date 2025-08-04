@@ -27,8 +27,8 @@
                     </a>
                 </li> <!--además saldra Cerrar Sesión que lo definí mas abajo tmbn-->
 
-                <!-- Opciones solo para rol ADMIN -->
-                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                <!-- Opciones para ADMIN y COLABORADOR -->
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'COLABORADOR')">
                     <a class="nav-link d-flex align-items-center py-2" th:href="@{/preguntas}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle me-2" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -37,7 +37,7 @@
                         Preguntas
                     </a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'COLABORADOR')">
                     <a class="nav-link d-flex align-items-center py-2" th:href="@{/categorias}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags me-2" viewBox="0 0 16 16">
                             <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
@@ -46,6 +46,8 @@
                         Categorías
                     </a>
                 </li>
+
+                <!-- Opciones solo para ADMIN -->
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link d-flex align-items-center py-2" th:href="@{/usuarios}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people me-2" viewBox="0 0 16 16">
