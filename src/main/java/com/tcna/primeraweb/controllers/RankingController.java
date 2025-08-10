@@ -11,7 +11,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/ranking")
+@RequestMapping({"/", "/ranking"})
 @RequiredArgsConstructor
 public class RankingController {
 

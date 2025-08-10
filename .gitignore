@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+### IGNORAR ESTOS ARCHIVOS ###
+.env
+/target
+src/main/java/com/tcna/primeraweb/DataInitializer.java
