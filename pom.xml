@@ -83,6 +83,12 @@
 			<artifactId>azure-identity</artifactId>
 			<version>1.13.2</version>
 		</dependency>
+		<!-- Spring Dotenv para cargar variables de entorno -->
+		<dependency>
+			<groupId>me.paulschwarz</groupId>
+			<artifactId>spring-dotenv</artifactId>
+			<version>4.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
