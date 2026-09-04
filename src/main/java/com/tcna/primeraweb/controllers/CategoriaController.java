@@ -1,8 +1,9 @@
 package com.tcna.primeraweb.controllers;
 
 import com.tcna.primeraweb.models.Categoria;
-import com.tcna.primeraweb.services.AzureBlobStorageService;
 import com.tcna.primeraweb.services.CategoriaService;
+import com.tcna.primeraweb.services.CloudinaryService;
+import com.tcna.primeraweb.services.UploadResult;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CategoriaController {
 
     private final CategoriaService service;
-    private final AzureBlobStorageService azureBlobStorageService;
+    private final CloudinaryService cloudinaryService;
 
     @GetMapping
     public String listarCategorias(Model model){
@@ -53,19 +54,21 @@ public class CategoriaController {
                 // Si es una edición y ya tiene imagen, eliminar la anterior
                 if (categoria.getId() != null) {
                     Categoria categoriaExistente = service.obtenerPorId(categoria.getId());
-                    if (categoriaExistente != null && categoriaExistente.getImagenUrl() != null) {
-                        azureBlobStorageService.deleteFile(categoriaExistente.getImagenUrl());
+                    if (categoriaExistente != null && categoriaExistente.getPublicId() != null) {
+                        cloudinaryService.deleteFile(categoriaExistente.getPublicId());
                     }
                 }
                 
                 // Subir nueva imagen
-                String imagenUrl = azureBlobStorageService.uploadFile(imagenFile);
-                categoria.setImagenUrl(imagenUrl);
+                UploadResult uploadResult = cloudinaryService.uploadFile(imagenFile);
+                categoria.setImagenUrl(uploadResult.getUrl());
+                categoria.setPublicId(uploadResult.getPublicId());
             } else if (categoria.getId() != null) {
-                // Si es edición sin nueva imagen, mantener la URL existente
+                // Si es edición sin nueva imagen, mantener la URL y public_id existentes
                 Categoria categoriaExistente = service.obtenerPorId(categoria.getId());
                 if (categoriaExistente != null) {
                     categoria.setImagenUrl(categoriaExistente.getImagenUrl());
+                    categoria.setPublicId(categoriaExistente.getPublicId());
                 }
             }
             
@@ -92,9 +95,9 @@ public class CategoriaController {
     public String eliminarCategoria(@PathVariable Long id){
         // Obtener la categoría antes de eliminarla para borrar la imagen
         Categoria categoria = service.obtenerPorId(id);
-        if (categoria != null && categoria.getImagenUrl() != null) {
+        if (categoria != null && categoria.getPublicId() != null) {
             try {
-                azureBlobStorageService.deleteFile(categoria.getImagenUrl());
+                cloudinaryService.deleteFile(categoria.getPublicId());
             } catch (Exception e) {
                 // Log del error pero continuar con la eliminación de la categoría
                 System.err.println("Error al eliminar imagen: " + e.getMessage());

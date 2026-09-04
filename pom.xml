@@ -72,16 +72,11 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
-		<!--Dependencias para Azure Blob Storage-->
+		<!--Dependencia para Cloudinary (almacenamiento de imágenes)-->
 		<dependency>
-			<groupId>com.azure</groupId>
-			<artifactId>azure-storage-blob</artifactId>
-			<version>12.27.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.azure</groupId>
-			<artifactId>azure-identity</artifactId>
-			<version>1.13.2</version>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.36.0</version>
 		</dependency>
 		<!-- Spring Dotenv para cargar variables de entorno -->
 		<dependency>
